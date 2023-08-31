@@ -54,6 +54,7 @@ try:
             cursor.execute("INSERT INTO metadata (data_limit, data_offset, data_count, data_sort) VALUES (%s, %s, %s, %s)", 
                 (meta_data['limit'], meta_data['offset'], meta_data['count'], meta_data['sort']))
 
+            
             create_main_table_query = '''
             CREATE TABLE IF NOT EXISTS attractions(
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -63,7 +64,7 @@ try:
             );
             '''
             cursor.execute(create_main_table_query)
-
+            
             create_location_table_query = '''
             CREATE TABLE IF NOT EXISTS attractions_location(
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -79,7 +80,7 @@ try:
             );
             '''
             cursor.execute(create_location_table_query)
-
+            
             create_description_table_query = '''
             CREATE TABLE IF NOT EXISTS attractions_description(
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -94,7 +95,7 @@ try:
             );
             '''
             cursor.execute(create_description_table_query)
-                
+            
             create_date_table_query = '''
             CREATE TABLE IF NOT EXISTS attractions_date(
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -107,7 +108,7 @@ try:
             );
             '''
             cursor.execute(create_date_table_query)
-
+            
             create_others_table_query = '''
             CREATE TABLE IF NOT EXISTS attractions_others(
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -143,27 +144,32 @@ try:
                 if '_id' in item:
                     item['old_id'] = item.pop('_id')
 
+                filtered_item = {key: item[key] for key in ['id', 'name', 'langinfo', 'old_id'] if key in item}
+
+                columns = ', '.join(filtered_item.keys())
+                placeholders = ', '.join(['%s'] * len(filtered_item.keys())) 
+                sql_attractions = f"INSERT INTO attractions ({columns}) VALUES ({placeholders})"
+                cursor.execute(sql_attractions, list(filtered_item.values()))
+               
+                cursor.execute("SELECT LAST_INSERT_ID();")
+                last_id = cursor.fetchone()[0]
+
                 longitude = float(item.get("longitude")) if item.get("longitude") else None
                 latitude = float(item.get("latitude")) if item.get("latitude") else None
 
                 if longitude is not None and latitude is not None:
-                    point_str = f"ST_PointFromText('POINT({longitude} {latitude})')"
+                    sql_location = """
+                        INSERT INTO attractions_location (attraction_id, attraction_name, MRT, direction, address, longitude, latitude, location)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, ST_PointFromText(%s))
+                    """
+                    point_str = f"POINT({longitude} {latitude})"
                 else:
-                    point_str = "NULL"
+                    sql_location = """
+                        INSERT INTO attractions_location (attraction_id, attraction_name, MRT, direction, address, longitude, latitude, location)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    """
+                    point_str = None
 
-                columns = ', '.join(item.keys())
-                placeholders = ', '.join(['%s'] * len(item.keys())) 
-                sql_attractions = f"INSERT INTO attractions ({columns}) VALUES ({placeholders})"
-
-                cursor.execute(sql_attractions, list(item.values()))
-                
-                cursor.execute("SELECT LAST_INSERT_ID();")
-                last_id = cursor.fetchone()[0]
-
-                sql_location = """
-                    INSERT INTO attractions_location (attraction_id, attraction_name, MRT, direction, address, longitude, latitude, location)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-                """
                 location_data = (
                     last_id, item['name'], item['MRT'], item['direction'], item['address'], longitude, latitude, point_str
                 )
@@ -201,6 +207,7 @@ try:
                     # if url.endswith(('.jpg', '.png')):
                         # image_data.append((last_id, url))
             connection.commit()
+            print("success tx")
         except Error as e:
             print(f"Error: {e}")
             connection.rollback()
@@ -214,3 +221,4 @@ finally:
         cursor.close()
     if connection:
         connection.close()
+        print("bye")
