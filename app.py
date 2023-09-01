@@ -57,7 +57,7 @@ def fetch_attraction_data(attraction_raw, cursor):
     return {
         'id': attraction_raw['id'],
         'name': attraction_raw['name'],
-        'Category': attraction_raw['Category'],
+        'category': attraction_raw['Category'],
         'description': attraction_raw['description'],
         'address': attraction_raw['address'],
         'mrt': attraction_raw['MRT'],
@@ -127,14 +127,14 @@ def get_attractions():
         return jsonify({"error": True, "message": str(e)}), 500
     
 
-@app.route('/api/attractions/<int:attractionId>', methods=['GET'])
-def get_attraction_by_id(attractionId):
+@app.route('/api/attraction/<attraction_id>', methods=['GET'])
+def get_attraction_by_id(attraction_id):
     try:
         connection = connect_to_db()
         cursor = connection.cursor(MySQLdb.cursors.DictCursor)
 
         query = "SELECT id, name, CAT as Category, description, address, mrt as MRT, ST_X(location) as lng, ST_Y(location) as lat FROM attractions WHERE id = %s"
-        cursor.execute(query, (attractionId,))
+        cursor.execute(query, (attraction_id,))
 
         attraction_raw = cursor.fetchone()
         
