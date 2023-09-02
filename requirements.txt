@@ -1,0 +1,7 @@
+Flask
+MysqlClient
+MySQLdb
+python-dotenv
+collections-extended
+
+# pip install -r requirements.txt
