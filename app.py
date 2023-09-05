@@ -66,7 +66,6 @@ def fetch_attraction_data(attraction_raw, cursor):
         'images': images
     }
 
-
 @app.route('/api/attractions', methods=['GET'])
 def get_attractions():
     try:
@@ -75,6 +74,17 @@ def get_attractions():
         
         connection = connect_to_db()
         cursor = connection.cursor(MySQLdb.cursors.DictCursor)
+
+        # 先計算總數
+        query_count = "SELECT COUNT(*) FROM attractions "
+        if keyword:
+            query_count += "WHERE name LIKE %s OR mrt = %s "
+            cursor.execute(query_count, (f"%{keyword}%", keyword))
+        else:
+            cursor.execute(query_count)
+
+        total_count = cursor.fetchone()['COUNT(*)']
+        print(total_count)
 
         # query = "SELECT *, ST_AsText(location) as location_text FROM attractions "
         # query = "SELECT *, ST_X(location) as longitude, ST_Y(location) as latitude FROM attractions "
@@ -113,7 +123,10 @@ def get_attractions():
         #        attraction["location"] = {"longitude": longitude, "latitude": latitude}
 
 
-        next_page = page + 1 if len(attractions) == 12 else None
+        # next_page = page + 1 if len(attractions) == 12 else None
+
+        is_last_page = (page * 12 + len(attractions)) >= total_count
+        next_page = page + 1 if not is_last_page else None
 
         response = OrderedDict([
             ("nextPage", next_page),
@@ -172,6 +185,7 @@ def get_mrts():
         """
         
         cursor.execute(query)
+
         result_raw = cursor.fetchall()
         
         mrts = [row['mrt'] for row in result_raw]
