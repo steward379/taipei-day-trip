@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   <!-- <link rel="stylesheet" href="./style.css"> -->
   <script src="https://kit.fontawesome.com/53c20d969e.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/newStyle.css') }}">
 
 </head>
 
@@ -24,8 +25,7 @@
         <svg class="xmark" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
           <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
         </svg>
-
-        <!--           <div class="nav-list-accordion"></div> -->
+        <!-- div class="nav-list-accordion"></div> -->
 
       </label>
       <ul class="nav-list">
@@ -35,6 +35,7 @@
     </nav>
   </header>
   <div class="container">
+
     <div class="jumbotron" style="background-image: url({{ url_for('static', filename='images/jumbotron-bg.png') }});">
       <div class="jumbotron-text">
         <h2>輕鬆享受台北一日悠閒</h2>
@@ -75,155 +76,246 @@
   </footer>
 
   <script>
-    let nextPage = null;
-    let currentPage = 0;
-    let isLoading = false;
-    let keyword = "";
-
-    document.getElementById("search-button").addEventListener("click", function() {
-      keyword = document.getElementById("search-input").value;
-      currentPage = 0;
-      fetchData();
-    });
-
-    async function fetchMrtData() {
-      const url = "http://127.0.0.1:3000/api/mrts";
-      const response = await fetch(url);
-      const dataJson = await response.json();
-      generateButtons(dataJson.data);
-    }
-
-    async function generateButtons(mrtData) {
-      const buttonWrapper = document.querySelector('.button-wrapper');
-      buttonWrapper.innerHTML = "";
-
-      mrtData.forEach((mrt, index) => {
-        const button = document.createElement("button");
-        button.className = "keyword-button";
-        button.textContent = mrt;
-        button.addEventListener('click', function() {
-          const searchInput = document.getElementById('search-input');
-          searchInput.value = this.textContent;
-          keyword = this.textContent;
-
-          currentPage = 0;
-          fetchData(true);
-        });
-        buttonWrapper.appendChild(button);
-      });
+    const state = {
+      nextPage: null,
+      currentPage: 0,
+      isLoading: false,
+      currentKeyword: "",
+      mrtOnly: false,
     };
+    const domainURL = `http://127.0.0.1:3000`;
 
-    window.addEventListener('load', async () => {
-      await fetchMrtData();
-      fetchData();
+    let observer;
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      await initialize();
     });
 
-    // document.querySelectorAll('.keyword-button').forEach(button => {
-    //   button.addEventListener('click', function() {
-    //     const keyword = this.getAttribute('data-keyword'); // 從 data-keyword 屬性獲取關鍵字
-    //     const searchInput = document.getElementById('search-input');
-    //     searchInput.value = keyword; // 將搜尋框的值設為按鈕的關鍵字
-    //   });
+    // window.addEventListener('load', async () => {
+    //   await fetchMRTData();
+    //   fetchData();
     // });
 
-    let observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && !isLoading) {
-        if (nextPage !== null) {
-          currentPage = nextPage;
+    function setupEnterKeyListener() {
+      const searchInput = document.getElementById("search-input");
+
+      searchInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          const keywordInputSubmit = searchInput.value;
+
+          state.currentPage = 0;
+          state.currentKeyword = keywordInputSubmit;
+          state.mrtOnly = false;
+
           fetchData();
         }
-      }
-    }, {});
+      });
+    }
 
-    async function fetchData(mrtOnly = false) {
-      isLoading = true;
+    async function initialize() {
+      // let currentPage = 0;
+      // let nextPage = null;
+      // let isLoading = false;
+      // let currentKeyword = "";
+      setupSearchButtonListener();
+      setupEnterKeyListener();
+      observer = setupObserver();
+      await firstFetchLoad();
+    }
+    async function firstFetchLoad() {
+      await fetchMRTData();
+      fetchData();
+    }
+
+    // debounce (don't need it for now)
+    //  取消請求 AbortController - axios 先不用
+    function setupObserver() {
+      return new IntersectionObserver(handleIntersection, {});
+    }
+
+    function handleIntersection(entries) {
+      if (entries[0].isIntersecting && !state.isLoading && state.nextPage !== null) {
+        state.currentPage = state.nextPage;
+        fetchData();
+      }
+    }
+    // async function fetchData(currentPage = 0, keyword = "", mrtOnly = false) {
+    async function fetchData() {
+      if (state.isLoading) return;
+
+      const {
+        currentPage,
+        currentKeyword,
+        mrtOnly,
+        isLoading,
+        nextPage,
+      } = state;
+
+      state.isLoading = true;
+
+      console.log(`Fetching data for page ${currentPage} (human ${currentPage +1}  ) on ${ mrtOnly && currentKeyword ? currentKeyword +" MRT station only" :  currentKeyword ? currentKeyword +" Place Name or MRT Station" : "all attractions"}.`);
+      // const url = `http://54.253.20.174:3000/api/attractions?page=${currentPage}`;
+      let formatAPIurl = `${domainURL}/api/attractions?page=${currentPage}`;
+      if (currentKeyword) {
+        formatAPIurl += `&keyword=${currentKeyword}`;
+        if (mrtOnly) {
+          formatAPIurl += `&mrtOnly=true`;
+        }
+      }
+
+      console.log(formatAPIurl);
 
       try {
-        console.log(`Fetching data for page ${currentPage} (human ${currentPage +1}  ) on ${keyword ? keyword : "all attractions"}.`);
-        // const url = `http://54.253.20.174:3000/api/attractions?page=${currentPage}`;
-        let url = `http://127.0.0.1:3000/api/attractions?page=${currentPage}`;
-        if (keyword) {
-          url += `&keyword=${keyword}`;
-        }
-        if (mrtOnly) {
-          url += `&mrtOnly=true`;
-        }
-        console.log(url);
-
-        const response = await fetch(url);
-        const data = await response.json();
+        const response = await fetch(formatAPIurl);
+        const dataAttractionsPrimitive = await response.json();
+        const dataAttractions = dataAttractionsPrimitive["data"];
 
         // fetch(url)
         //   .then(response => response.json())
         //   .then(data => {
-        if (currentPage === 0 && document.querySelector('.photo-profile')) {
-          document.querySelector('.photo-profile').innerHTML = '';
+
+        if (currentPage === 0) {
+          const photoProfile = document.querySelector(".photo-profile")
+          if (photoProfile) photoProfile.innerHTML = "";
         }
+        // createElements(dataAttractions);
 
-        createElements(data);
-
-        isLoading = false;
-
+        if (dataAttractions && dataAttractions.length > 0) {
+          createElements(dataAttractions);
+        } else {
+          const mainElement = document.querySelector("main");
+          const existingNoDataDiv = mainElement.querySelector(".no-data");
+          if (existingNoDataDiv) {
+            existingNoDataDiv.remove();
+          };
+          const noDataDiv = document.createElement("div");
+          noDataDiv.className = "no-data";
+          noDataDiv.textContent = "沒有資料";
+          mainElement.appendChild(noDataDiv);
+        }
         // async await
         setTimeout(() => {
-          const ulProfile = document.querySelector('.photo-profile');
-          observer.observe(ulProfile.lastChild);
+          const ulProfile = document.querySelector(".photo-profile");
+          if (ulProfile && ulProfile.lastChild) {
+            observer.observe(ulProfile.lastChild);
+          }
         }, 300); // 延遲 300 毫秒
 
-        nextPage = data["nextPage"];
-        console.log("nextPage", nextPage);
+        state.nextPage = dataAttractionsPrimitive["nextPage"];
+
+        let nowNextPage = state.nextPage;
+        console.log("real data.nextPage now", nowNextPage);
         // })
-      } catch (err) {
-        console.log('Error Fetching data:', err);
-        isLoading = false;
+        state.isLoading = false;
+
+      } catch (error) {
+        console.log("Error Fetching data:", error);
+        state.isLoading = false;
       }
     }
+    // Search Function
+    function setupSearchButtonListener() {
+      const searchButton = document.getElementById("search-button");
+      searchButton.addEventListener("click", () => {
+        // keyword = document.getElementById("search-input").value;
+        const keywordInputSubmit = document.getElementById("search-input").value;
 
-    function createElements(data) {
-      const attractions = data["data"];
-      const nextPage = data["nextPage"];
-      const attractionsCount = attractions.length;
+        state.currentPage = 0;
+        state.currentKeyword = keywordInputSubmit;
+        state.mrtOnly = false;
 
-      if (attractionsCount === 0) {
-        document.querySelector('main').innerText = '沒有結果';
-        return;
+        fetchData();
+        // fetchData(currentPage, keywordSubmit);
+      });
+    }
+    // MRT Buttons Line Up 
+    async function fetchMRTData() {
+      try {
+        const url = `${domainURL}/api/mrts`;
+        const response = await fetch(url);
+        const dataMRT = await response.json();
+        generateMRTButtons(dataMRT.data);
+      } catch (error) {
+        console.log("Error Fetching data:", error);
       }
+    }
+    // Search for MRT Only
+    function generateMRTButtons(mrtData) {
+      const buttonWrapper = document.querySelector(".button-wrapper");
+      buttonWrapper.innerHTML = "";
 
-      const mainElement = document.querySelector('main');
-      let ulProfile = mainElement.querySelector('.photo-profile') || document.createElement('ul');
+      mrtData.forEach((mrt) => {
+        const button = document.createElement("button");
+        button.className = "keyword-button";
+        button.textContent = mrt;
+        button.setAttribute("data-keyword", mrt);
 
-      ulProfile.className = `photo-profile`;
+        button.addEventListener("click", function() {
+          const keywordMRTButton = this.textContent;
+          // const keywordMRTButton = this.getAttribute("data-keyword");
 
-      for (let i = 0; i < attractionsCount; i++) {
-        let liProfile = document.createElement(`li`);
-        liProfile.className = `profile-li profile-li-${i}`;
-        profileGenerate(i, attractions, liProfile);
-        ulProfile.appendChild(liProfile);
-      }
+          const searchInput = document.getElementById("search-input");
+          searchInput.value = keywordMRTButton;
+
+          state.currentPage = 0;
+          state.currentKeyword = keywordMRTButton;
+          state.mrtOnly = true;
+
+          fetchData();
+          // fetchData(currentPage, keywordMRTButton, true);
+        });
+        buttonWrapper.appendChild(button);
+      });
+    };
+    // const observer = new IntersectionObserver(entries => {
+    //   if (entries[0].isIntersecting && !isLoading) {
+    //     if (nextPage !== null) {
+    //       currentPage = nextPage;
+    //       fetchData(currentPage, currentKeyword);
+    //     }
+    //   }
+    // }, {});
+
+    function createElements(attractions) {
+
+      const mainElement = document.querySelector("main");
+
+      const ulProfile = mainElement.querySelector(".photo-profile") || document.createElement("ul");
+      ulProfile.className = "photo-profile";
+
+      attractions.forEach(
+        (attraction, i) => {
+          const liProfile = document.createElement("li");
+          liProfile.className = `profile-li profile-li-${i+1}`;
+
+
+          profileGenerate(i, attraction, liProfile);
+
+          ulProfile.appendChild(liProfile);
+        }
+      );
 
       if (!mainElement.contains(ulProfile)) {
         mainElement.appendChild(ulProfile);
-        // 無限捲動
         observer.observe(ulProfile.lastChild);
       }
     }
 
-    function profileGenerate(i, attractions, newProfileList) {
-
+    function profileGenerate(i, attraction, newProfileList) {
       let divElement = document.createElement("div");
-      divElement.className = `profile-img profile-img-${i}`;
+      divElement.className = `profile-img profile-img-${i+1}`;
 
       let imgElement = document.createElement("img");
       // imgElement.src = "https://" + attractions[i].file.split('https://')[1]; // 使用 JSON 資料中的圖片 URL
       // imgElement.src = attractions[i].images[0] || "http://placekitten.com/420/500";
 
-      if (attractions[i].images && attractions[i].images[0]) {
-        imgElement.src = attractions[i].images[0];
-        divElement.appendChild(imgElement); // 將img元素添加到div容器中
+      if (attraction.images && attraction.images[0]) {
+        imgElement.src = attraction.images[0];
+        divElement.appendChild(imgElement);
       } else {
         let textDiv = document.createElement("div");
         textDiv.className = "fallback-text";
-        textDiv.textContent = "【缺圖中】" + attractions[i].name;
+        textDiv.textContent = "【缺圖中】" + attraction.name;
 
         divElement.appendChild(textDiv); // 將含有名稱的div添加到div容器中
       }
@@ -243,24 +335,28 @@
       // );
 
       let divElementTitle = document.createElement("div");
-      divElementTitle.className = `profile-title profile-title-${i}`;
+      divElementTitle.className = `profile-title profile-title-${i+1}`;
 
       let spanElement = document.createElement("span");
-      spanElement.textContent = attractions[i].name;
+      spanElement.textContent = attraction.name || "【沒有名稱】";
+
+      if (attraction.name.length > 15) {
+        spanElement.style.fontSize = "14px";
+      }
 
       let ulElement = document.createElement("ul");
-      ulElement.className = `profile-des profile-des-${i}`;
+      ulElement.className = `profile-des profile-des-${i+1}`;
 
       let liElement = document.createElement("li");
-      liElement.textContent = attractions[i].mrt;
+      liElement.textContent = attraction.mrt || "沒有捷運站";
       liElement.className = `profile-des-li-mrt`;
 
       let liElement2 = document.createElement("li");
-      liElement2.textContent = attractions[i].category;
+      liElement2.textContent = attraction.category || "沒有分類";
       liElement2.className = `profile-des-li-category`;
 
       newProfileList.appendChild(divElement);
-      divElement.appendChild(imgElement);
+      // divElement.appendChild(imgElement);
       // divElement.appendChild(svgElement);
       // svgElement.appendChild(pathElement);
       divElement.appendChild(divElementTitle);
