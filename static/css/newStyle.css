@@ -1,8 +1,8 @@
 :root {
     /* color */
-    --primary-color: #489;
+    --primary-color: #448899;
     --secondary-color: #f8f8f8;
-    --gray-700: #757575;
+    --gray-700: #666666;
     --white: #fff;
     /* font */
     --ui-font: "Noto Sans TC", sans-serif;
@@ -16,6 +16,11 @@
     --fill-all: 100%;
     --max-width: 1200px;
 }
+
+/* @font-face {
+    font-family: 'Noto Sans TC';
+    src: url('/path/to/NotoSansTC-Regular.otf') format('opentype');
+} */
 
 *,
 *:before,
@@ -78,12 +83,19 @@ nav h1 {
 
     /* padding: 0 var(--basic-padding) 0 0; */
 }
+.nav-list {
+    display: flex;
+    transition: all 0.3s;
+    color: var(--gray-700);
+}
+.nav-item {
+    padding: var(--basic-padding);
+}
 
 nav #hamburger-menu-click {
     display: none;
 }
-
-nav .hamburger-menu-label {
+/* nav .hamburger-menu-label {
     position: relative;
 
     display: flex;
@@ -93,26 +105,14 @@ nav .hamburger-menu-label {
     width: 50px;
     height: 50px;
     cursor: pointer;
-}
+} */
 nav .hamburger-menu-label .hamburger-menu {
     display: none;
 }
 nav .hamburger-menu-label .xmark {
     display: none;
 }
-nav .nav-list {
-    display: flex;
-    transition: all 0.3s;
-    padding: 0 var(--basic-padding);
-}
-nav .nav-list .nav-item {
-    padding: var(--basic-padding);
-
-    --header-height: 54px;
-    --header-font-size: 20px;
-    padding-top: calc(var(--header-height) / 2 - var(--header-font-size) / 2);
-}
-nav #hamburger-menu-click:checked + .hamburger-menu-label .hamburger-menu {
+/* nav #hamburger-menu-click:checked + .hamburger-menu-label .hamburger-menu {
     display: none;
 }
 nav #hamburger-menu-click:checked + .hamburger-menu-label .xmark {
@@ -143,8 +143,6 @@ nav #hamburger-menu-click:checked ~ .nav-list .nav-item {
     width: var(--fill-all);
     text-align: center;
     padding: 15px 0;
-}
-/* .container {
 } */
 
 .jumbotron {
@@ -157,7 +155,7 @@ nav #hamburger-menu-click:checked ~ .nav-list .nav-item {
     background-position: top;
 }
 
-.jumbotron .jumbotron-text {
+.jumbotron-text {
     /* UI Setup*/
     max-width: var(--max-width);
     margin: 0 auto;
@@ -181,11 +179,10 @@ nav #hamburger-menu-click:checked ~ .nav-list .nav-item {
     /* UI bg */
     margin-bottom: 25px;
     /* UI */
-    font-size: var(--ui-font-size);
     font-weight: var(--ui-font-weight);
     color: var(--secondary-color-gray-10, #f8f8f8);
 }
-.jumbotron .search-bar {
+.search-bar {
     /*  UI */
     position: relative;
 
@@ -193,15 +190,14 @@ nav #hamburger-menu-click:checked ~ .nav-list .nav-item {
     height: 46px;
     border: none;
     /* guess */
-    border-radius: var(--ui-border-radius);
     fill: var(--White, #fff);
 }
-.jumbotron .search-bar #search-input {
+.search-bar #search-input {
+    border-radius: var(--ui-border-radius);
     /* UI bg */
     width: var(--fill-all);
     border: none;
     fill: var(--White, #fff);
-    border-radius: var(--ui-border-radius);
     /* UI word */
     padding: 15px;
     font-weight: var(--ui-font-weight);
@@ -219,9 +215,10 @@ button {
     margin: 10px;
     padding: var(--basic-padding);
 }
-#search-button {
+.search-bar #search-button {
     /* UI bg */
     position: absolute;
+    overflow: hidden;
 
     top: 0;
     right: 0;
@@ -229,25 +226,59 @@ button {
     width: 60px;
     height: var(--fill-all);
     margin: 0;
-    border-radius: 0;
+    border-radius: 0 5px 5px 0;
 
     /* UI word */
     color: var(--white);
     background-color: var(--primary-color);
 }
-.button-wrapper {
-    display: flex;
+.button-list-wrapper {
+    height: 50px;
 
+    position: relative;
+    max-width: var(--max-width);
     margin: 40px auto 20px auto;
+}
+.button-wrapper::-webkit-scrollbar {
+    display: none; /* 對於 WebKit 瀏覽器如 Chrome 和 Safari */
+}
+.button-wrapper {
+    margin: 0 57px;
+    padding: 13px 10px;
     overflow-x: auto; /* 讓內容超出時能左右滾動 */
     white-space: nowrap;
-
-    max-width: var(--max-width);
+    -ms-overflow-style: none; /* 對於 Internet Explorer 和 Edge */
+    scrollbar-width: none; /* 對於 Firefox */
 }
-.keyword-button {
+.button-wrapper .keyword-button {
     color: grey;
     background-color: var(--white);
-    margin: 5px;
+    margin: 0;
+    padding: 0 10px;
+}
+.button-list-wrapper .arrow-button {
+    /* z-index: 1; */
+    position: absolute;
+    top: 18px;
+    transform: translateY(-50%);
+    padding: 0;
+
+    background-color: white;
+    border: solid 1.5px gray;
+    border-radius: 100%;
+
+    font-size: 24px;
+    width: 32px;
+    height: 32px;
+    line-height: 30px;
+    text-align: center;
+    color: gray;
+}
+.left-arrow {
+    left: 0;
+}
+.right-arrow {
+    right: 0;
 }
 
 main {
@@ -263,12 +294,10 @@ main {
 /* 增加按鈕樣式 */
 footer {
     /* UI bg */
-    background-color: var(--Gray-700, #757575);
+    background-color: var(--gray-700);
     height: 104px;
     /* UI word */
     color: white;
-    font-size: 16px;
-    font-weight: var(--ui-font-weight);
 
     display: flex;
     justify-content: center;
@@ -300,7 +329,9 @@ footer {
     justify-content: flex-start;
     align-items: center;
 
-    background-color: lightblue;
+    border: 1px solid var(--secondary-color-gray-20, #e8e8e8);
+    background: var(--White, #fff);
+    border-radius: var(--ui-border-radius);
 }
 
 .profile-img {
@@ -332,7 +363,7 @@ footer {
 
     font-size: 20px;
     font-weight: var(--ui-font-weight);
-    color: rgb(66, 64, 64, 0.8);
+    color: rgba(66, 64, 64, 0.8);
 }
 
 .profile-img .star {
@@ -360,7 +391,7 @@ footer {
     position: absolute;
     top: 160px;
 
-    background-color: rgb(66, 64, 64, 0.8);
+    background-color: rgba(66, 64, 64, 0.8);
     width: var(--fill-all);
     z-index: 1;
 }
@@ -384,7 +415,6 @@ footer {
     height: 42px;
     justify-content: space-between;
 
-    background-color: rgba(231, 227, 231);
     width: var(--fill-all);
 
     display: flex;
@@ -407,13 +437,16 @@ footer {
     line-height: 200px;
 }
 
-@media (max-width: var(--max-width)) {
-    .photo-profile {
-        width: 90%;
+@media (max-width: 1200px) {
+    .nav-text {
+        margin: auto 10px;
+    }
+    .jumbotron-text {
+        margin: auto 20px;
     }
 }
 
-@media (min-width: 600px) and (max-width: var(--max-width)) {
+@media (min-width: 600px) and (max-width: 1200px) {
     .photo-profile .profile-li {
         flex: 1 1 30%;
     }
@@ -424,13 +457,18 @@ footer {
         flex: 1 1 40%;
     }
 }
-
 @media (min-width: 360px) and (max-width: 600px) {
-    nav .hamburger-menu-label .hamburger-menu {
+    /* nav .hamburger-menu-label .hamburger-menu {
         display: block;
-    }
-    nav .nav-list {
+    } */
+    /* nav .nav-list {
         display: none;
+    } */
+    .search-bar {
+        width: 285px;
+    }
+    .nav-item-2 {
+        padding-right: 0;
     }
     .photo-profile .profile-li {
         flex: 1 1 60%;
