@@ -237,8 +237,8 @@ function createElements(attractions) {
 function profileGenerate(i, attraction, newProfileList) {
   let divElement = document.createElement("div");
   divElement.className = `profile-img profile-img-${i + 1}`;
-  let imgElement = document.createElement("img");
 
+  let imgElement = document.createElement("img");
   if (attraction.images && attraction.images[0]) {
     // imgElement.src = "https://" + attractions[i].file.split('https://')[1]; // 使用 JSON 資料中的圖片 URL
     // imgElement.src = attractions[i].images[0] || "http://placekitten.com/420/500";
@@ -266,16 +266,17 @@ function profileGenerate(i, attraction, newProfileList) {
   // );
 
   let divElementTitle = document.createElement("div");
-  divElementTitle.className = `profile-title profile-title-${i + 1}`;
-
-  let spanElement = document.createElement("span");
-  spanElement.textContent = attraction.name || "【沒有名稱】";
+  divElementTitle.className = `profile-img-div profile-title profile-title-${
+    i + 1
+  }`;
+  divElementTitle.textContent = attraction.name || "【沒有名稱】";
 
   if (attraction.name.length > 15) {
-    spanElement.style.fontSize = "14px";
+    divElementTitle.style.fontSize = "14px";
   }
+
   let ulElement = document.createElement("ul");
-  ulElement.className = `profile-des profile-des-${i + 1}`;
+  ulElement.className = `profile-img-div profile-des profile-des-${i + 1}`;
 
   let liElement = document.createElement("li");
   liElement.textContent = attraction.mrt || "沒有捷運站";
@@ -286,11 +287,10 @@ function profileGenerate(i, attraction, newProfileList) {
   liElement2.className = `profile-des-li-category`;
 
   newProfileList.appendChild(divElement);
-  // divElement.appendChild(imgElement);
+  divElement.appendChild(imgElement);
   // divElement.appendChild(svgElement);
   // svgElement.appendChild(pathElement);
   divElement.appendChild(divElementTitle);
-  divElementTitle.appendChild(spanElement);
   newProfileList.appendChild(ulElement);
   ulElement.appendChild(liElement);
   ulElement.appendChild(liElement2);
