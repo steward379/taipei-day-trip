@@ -119,7 +119,7 @@ async function fetchData() {
     // createElements(dataAttractions);
 
     const mainElement = document.querySelector("main");
-    const existingNoDataDiv = mainElement.querySelector(".no-data") || null;
+    const existingNoDataDiv = mainElement.querySelector(".no-data");
 
     // 如果 .no-data 存在，則先將其刪除
     if (existingNoDataDiv) {
@@ -217,21 +217,52 @@ function generateMRTButtons(mrtData) {
   const rightArrowButton = buttonListWrapper.querySelector(".right-arrow");
 
   leftArrowButton.addEventListener("click", function () {
-    buttonWrapper.scrollLeft -= 50;
+    const maxScrollLeft = buttonWrapper.scrollWidth - buttonWrapper.clientWidth;
+
+    if (buttonWrapper.scrollLeft > 0) {
+      buttonWrapper.scrollTo({
+        left: buttonWrapper.scrollLeft - 250,
+        behavior: "smooth",
+      });
+    } else {
+      // 模擬彈跳效果
+      buttonWrapper.scrollTo({
+        left: buttonWrapper.scrollLeft + 20,
+        behavior: "smooth",
+      });
+      setTimeout(() => {
+        buttonWrapper.scrollTo({
+          left: buttonWrapper.scrollLeft - 20,
+          behavior: "smooth",
+        });
+      }, 100);
+    }
   });
 
   rightArrowButton.addEventListener("click", function () {
-    buttonWrapper.scrollLeft += 50;
+    const maxScrollLeft = buttonWrapper.scrollWidth - buttonWrapper.clientWidth;
+
+    if (buttonWrapper.scrollLeft + 50 < maxScrollLeft) {
+      buttonWrapper.scrollTo({
+        left: buttonWrapper.scrollLeft + 250,
+        behavior: "smooth",
+      });
+    } else {
+      // 模擬彈跳效果
+      console.log("end");
+      buttonWrapper.scrollTo({
+        left: buttonWrapper.scrollLeft - 20,
+        behavior: "smooth",
+      });
+      setTimeout(() => {
+        buttonWrapper.scrollTo({
+          left: buttonWrapper.scrollLeft + 20,
+          behavior: "smooth",
+        });
+      }, 100);
+    }
   });
 }
-// const observer = new IntersectionObserver(entries => {
-//   if (entries[0].isIntersecting && !isLoading) {
-//     if (nextPage !== null) {
-//       currentPage = nextPage;
-//       fetchData(currentPage, currentKeyword);
-//     }
-//   }
-// }, {});
 
 function createElements(attractions) {
   const mainElement = document.querySelector("main");

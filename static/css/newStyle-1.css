@@ -198,7 +198,7 @@ nav #hamburger-menu-click:checked ~ .nav-list {
   height: 32px;
   padding: 0;
   position: absolute;
-  top: 20px;
+  top: 23px;
   font-size: 22px;
   /* z-index: 1; */
   transform: translateY(-50%);
