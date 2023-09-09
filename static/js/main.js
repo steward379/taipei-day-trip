@@ -54,17 +54,27 @@ function setupEnterKeyListener() {
 // debounce (don't need it for now)
 //  取消請求 AbortController - axios 先不用
 function setupObserver() {
-  return new IntersectionObserver(handleIntersection, {});
+  const options = {
+    root: null, // 以 viewport 為基準
+    rootMargin: "0px", // 不添加額外邊距
+    threshold: 0.5, // 至少 50% 的目標元素需要在 viewport 內
+  };
+  return new IntersectionObserver(handleIntersection, options);
 }
 function handleIntersection(entries) {
-  if (
-    entries[0].isIntersecting &&
-    !state.isLoading &&
-    state.nextPage !== null
-  ) {
-    state.currentPage = state.nextPage;
-    fetchData();
-  }
+  // if (
+  //   entries[0].isIntersecting &&
+  //   ...
+  // ) {
+  //     ...
+  // }
+  entries.forEach((entry) => {
+    if (entry.isIntersecting && !state.isLoading && state.nextPage !== null) {
+      observer.unobserve(entry.target);
+      state.currentPage = state.nextPage;
+      fetchData();
+    }
+  });
 }
 // async function fetchData(currentPage = 0, keyword = "", mrtOnly = false) {
 async function fetchData() {
