@@ -118,6 +118,14 @@ async function fetchData() {
     }
     // createElements(dataAttractions);
 
+    const mainElement = document.querySelector("main");
+    const existingNoDataDiv = mainElement.querySelector(".no-data") || null;
+
+    // 如果 .no-data 存在，則先將其刪除
+    if (existingNoDataDiv) {
+      existingNoDataDiv.remove();
+    }
+
     if (dataAttractions && dataAttractions.length > 0) {
       createElements(dataAttractions);
     } else {

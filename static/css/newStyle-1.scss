@@ -284,6 +284,8 @@ nav #hamburger-menu-click:checked ~ .nav-list {
     .arrow-button {
         width: 32px;
         height: 32px;
+        padding: 0;
+
         position: absolute;
         top: 20px;
         // guess by designer eyes
@@ -337,7 +339,7 @@ nav #hamburger-menu-click:checked ~ .nav-list {
         color: $secondary-color-50;
         background-color: $real-white;
         margin: 0;
-        padding: 0 10px;
+        padding: 5px 15px;
 
         &:hover {
             color: black;

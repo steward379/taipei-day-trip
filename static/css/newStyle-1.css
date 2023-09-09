@@ -196,6 +196,7 @@ nav #hamburger-menu-click:checked ~ .nav-list {
 .button-list-wrapper .arrow-button {
   width: 32px;
   height: 32px;
+  padding: 0;
   position: absolute;
   top: 20px;
   font-size: 22px;
@@ -246,7 +247,7 @@ nav #hamburger-menu-click:checked ~ .nav-list {
   color: #757575;
   background-color: #fff;
   margin: 0;
-  padding: 0 10px;
+  padding: 5px 15px;
 }
 
 .button-wrapper .keyword-button:hover {
