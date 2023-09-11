@@ -16,7 +16,7 @@ password = os.environ.get("DB_PASSWORD")
 def connect_to_db():
     if password is None:
         raise ValueError("Database password is not set!")
-    return MySQLdb.connect(user='root', passwd=password, host='localhost', db='taipei_day_trip', charset='utf8mb4')
+    return MySQLdb.connect(user='root', passwd=password, host='localhost', db='taipei_day_trip_new', charset='utf8mb4')
 
 def bytes_to_str(data):
     if isinstance(data, bytes):
