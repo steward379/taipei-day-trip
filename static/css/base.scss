@@ -1,0 +1,185 @@
+$primary-color: #448899; //cyan-70, #489
+$primary-color-50: #6ab;
+$primary-color-20: #ade;
+$secondary-color: #666666; //gray-70, #666
+$secondary-color-50: #757575;
+$secondary-color-20: #e8e8e8;
+$secondary-color-10: #f8f8f8;
+$gradient1: linear-gradient(45deg, #aaddee, #66aabb);
+$gradient2: linear-gradient(0deg, #337788, #66aabb);
+$support-color-blue-gray: #aabbcc;
+$real-white: #fff;
+$font: "Noto Sans TC", sans-serif;
+$font-regular-size: 16px;
+$basic-border-radius: 5px;
+$basic-padding: 10px;
+$input-padding: 15px;
+$max-width: 1200px;
+$header-height: 54px;
+$welcome-visible-height: 320px;
+$search-bar-height: 46px;
+$search-bar-desktop-width: 460px;
+$search-bar-mobile-width: 285px;
+
+/* @font-face {
+      font-family: 'Noto Sans TC';
+      src: url('/path/to/NotoSansTC-Regular.otf') format('opentype');
+  } */
+@mixin h1-slogan {
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 24px;
+}
+@mixin h2-headline {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 34px;
+}
+@mixin h3-dialog {
+    // font-weight: 700;
+    // font-weight: 400;
+    //  // regular, css=normal
+    font-size: 24px;
+    line-height: 24px;
+}
+@mixin button-text {
+    // font-weight: 400;
+    // // default  regular, css=normal
+
+    // font-weight: 700;
+    font-size: 19px;
+    line-height: 16px;
+}
+@mixin content-text {
+    // font-weight: 400;
+    // // default regular, css=normal
+
+    // font-weight: 700;
+    font-size: 16px;
+    line-height: auto;
+}
+@mixin body-text {
+    font-weight: 500;
+    // change default to medium (500)
+    // font-weight: 700;
+    font-size: 16px;
+    line-height: 13.3px;
+}
+@mixin list-text {
+    font-weight: 500; // medium
+    font-size: 14px;
+    line-height: auto;
+}
+@mixin input-default {
+    @include body-text;
+    background-color: $real-white;
+    border-radius: $basic-border-radius;
+    outline: none;
+    border: 1px solid #ccc;
+}
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+body {
+    @include body-text;
+    // font-family: $font;
+    // font-size: $font-regular-size;
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+    button {
+        @include button-text;
+        cursor: pointer;
+        border: none;
+    }
+}
+.nav-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: $header-height;
+    background-color: $real-white;
+    padding: $basic-padding 0;
+    z-index: 999;
+
+    .nav-content {
+        max-width: $max-width;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.logotype-h2 {
+    @include h2-headline;
+    color: $primary-color;
+}
+.nav-list {
+    display: flex;
+
+    transition: all 0.3s;
+
+    .nav-item {
+        padding: $basic-padding;
+        color: $secondary-color;
+        cursor: pointer;
+
+        &:hover {
+            color: black;
+        }
+    }
+}
+// main
+main {
+    max-width: $max-width;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+// footer
+footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $secondary-color-50;
+    height: 104px;
+    width: 100%;
+
+    color: $secondary-color-10;
+    font-weight: 700;
+}
+
+// RWD
+@media (max-width: 1200px) {
+    .nav-list .nav-item-2 {
+        padding-right: 0;
+    }
+    .nav-wrapper {
+        padding: $basic-padding;
+    }
+    // .nav-content {
+    //     margin: auto 10px;
+    // }
+    .jumbotron .jumbotron-text {
+        margin: 0 20px;
+    }
+    .button-list-wrapper {
+        margin: 40px 15px 20px 15px;
+
+        .left-arrow {
+            left: 0;
+        }
+        .right-arrow {
+            right: 0;
+        }
+    }
+}

@@ -234,6 +234,7 @@ nav #hamburger-menu-click:checked ~ .nav-list {
   -ms-overflow-style: none;
   /* 對於 Firefox */
   scrollbar-width: none;
+  scroll-behavior: smooth;
 }
 
 .button-wrapper::-webkit-scrollbar {
@@ -266,7 +267,7 @@ main {
 .photo-profile {
   padding: 15px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 30px 30px;
   flex-wrap: wrap;
@@ -275,11 +276,12 @@ main {
 
 .photo-profile .profile-li {
   height: 242px;
-  flex: 1 1 23%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  flex: 1 1 calc(25% - 30px);
+  max-width: 270px;
   border-radius: 5px;
   border: 1px solid #e8e8e8;
   background: #fff;
@@ -380,7 +382,7 @@ footer {
   }
 }
 
-@media (min-width: 600px) and (max-width: 1200px) {
+@media (min-width: 800px) and (max-width: 1200px) {
   .photo-profile .profile-li {
     flex: 1 1 30%;
   }
@@ -388,7 +390,7 @@ footer {
 
 @media (min-width: 600px) and (max-width: 880px) {
   .photo-profile .profile-li {
-    flex: 1 1 40%;
+    flex: 1 1 50%;
   }
 }
 
@@ -407,8 +409,8 @@ footer {
   }
   .photo-profile .profile-li {
     height: 270px;
-    width: 321px;
-    flex: 1 1 60%;
+    flex: 1 1 100%;
+    max-width: 320px;
   }
   .profile-img {
     height: 235px;
