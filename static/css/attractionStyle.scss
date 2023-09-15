@@ -142,7 +142,7 @@ main {
 .photo-booking {
     height: 302px;
     padding: 15px 20px;
-    background: lightgray;
+    background: $secondary-color-20;
     font-weight: 700;
     border-radius: $basic-border-radius;
 
@@ -152,6 +152,7 @@ main {
     .photo-subtitle {
         font-weight: 500;
         margin-bottom: 15px;
+        line-height: normal;
     }
     .photo-date {
         margin-bottom: 24px;
