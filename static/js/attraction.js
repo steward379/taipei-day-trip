@@ -15,21 +15,17 @@ function getAttractionIdFromURL() {
 
 document.addEventListener("DOMContentLoaded", async () => {
     const attraction_id = getAttractionIdFromURL();
-    console.log(attraction_id);
 
     if (attraction_id) await initialize(attraction_id);
 });
 
 async function initialize(id) {
     let formatAPIurl = `${domainURL}${port}/api/attraction/${id}`;
-    console.log(id);
 
     try {
         const response = await fetch(formatAPIurl);
         const dataAttractionsPrimitive = await response.json();
         const dataAttractions = dataAttractionsPrimitive["data"];
-
-        console.log(dataAttractions);
 
         if (dataAttractions) {
             // createElements(dataAttractions);
@@ -48,9 +44,7 @@ async function initialize(id) {
             const attractionTransport = document.querySelector(
                 ".attraction-transport"
             );
-            const attractionImages = document.querySelector(
-                ".photo-img-left-div"
-            );
+            const attractionImages = document.querySelector(".images-wrapper");
 
             attractionName.textContent = dataAttractions["name"];
             attractionCategory.textContent = dataAttractions["category"];
@@ -59,12 +53,26 @@ async function initialize(id) {
             attractionMrt.textContent = dataAttractions["mrt"];
             attractionTransport.textContent = dataAttractions["transport"];
 
+            const feeElement = document.getElementById("photo-fee");
+            const morningRadio = document.getElementById("morning");
+            const afternoonRadio = document.getElementById("afternoon");
+
+            morningRadio.addEventListener("change", function () {
+                feeElement.textContent = "新台幣 2000 元";
+            });
+
+            afternoonRadio.addEventListener("change", function () {
+                feeElement.textContent = "新台幣 2500 元";
+            });
+
             for (let i = 0; i < dataAttractions["images"].length; i++) {
                 const img = document.createElement("img");
 
                 img.src = dataAttractions["images"][i];
 
-                img.alt = `attraction image ${dataAttractions["name"]} - ${i}`;
+                img.alt = `attraction image ${dataAttractions["name"]} - ${
+                    i + 1
+                }`;
                 img.className = `attraction-image attraction-image-${i + 1}`;
                 attractionImages.appendChild(img);
             }
@@ -85,19 +93,6 @@ async function initialize(id) {
             const imageCount = dataAttractions["images"].length;
 
             arrowMotion(imageCount);
-
-            // attractions.forEach((attraction, i) => {
-            //         const liProfile = document.createElement("li");
-            //         liProfile.className = `profile-li profile-li-${i + 1}`;
-
-            //         profileGenerate(i, attraction, liProfile);
-
-            //         ulProfile.appendChild(liProfile);
-            //     });
-            //     if (!mainElement.contains(ulProfile)) {
-            //         mainElement.appendChild(ulProfile);
-            //         observer.observe(ulProfile.lastChild);
-            //     }
         }
 
         // DOM
@@ -127,7 +122,43 @@ async function arrowMotion(imageCount) {
     });
 
     let targetScroll = 0;
+    let imageIndex = 0;
+    let isScrolling = false;
     let programmaticScroll = false;
+    console.log("scroll false, program False");
+
+    function resizeImages(imageCount) {
+        const screenWidth = window.screen.width; // 獲取螢幕寬度
+        if (screenWidth < 580) {
+            images.forEach((image) => {
+                image.style.width = `${screenWidth}px`; // 設定每個圖片的寬度
+            });
+            // const imagesWrapper = document.querySelector(".images-wrapper");
+            imagesWrapper.style.width = `${screenWidth}px`;
+
+            console.log("screenWidth", screenWidth, "px");
+        } else if (screenWidth > 580) {
+            images.forEach((image) => {
+                image.style.width = ""; // 或者你想設定的其他寬度
+            });
+            imagesWrapper.style.width = ""; // 或者你想設定的其他寬度
+        }
+    }
+
+    window.addEventListener("resize", () => resizeImages(imageCount));
+
+    resizeImages(imageCount);
+
+    function updateDots(imageIndex, previousIndex) {
+        const dotNowDiv = document.querySelector(
+            `.img-nav-button-${imageIndex + 1}`
+        );
+        const dotLastDiv = document.querySelector(
+            `.img-nav-button-${previousIndex + 1}`
+        );
+        dotNowDiv.classList.add("img-nav-button-active");
+        dotLastDiv.classList.remove("img-nav-button-active");
+    }
 
     imagesWrapper.addEventListener("scroll", function (e) {
         if (!programmaticScroll) {
@@ -140,134 +171,114 @@ async function arrowMotion(imageCount) {
             });
         }
     });
-    let imageIndex = 0;
 
-    let isScrolling = false;
-    console.log("now False");
+    function getImageWidth() {
+        const images = document.querySelectorAll(".attraction-image");
+        return images[0] ? images[0].getBoundingClientRect().width : 0;
+    }
 
     leftArrowButton.addEventListener("click", function () {
-        const maxScrollLeft =
-            imagesWrapper.scrollWidth - imagesWrapper.clientWidth;
+        let imageWidth = getImageWidth();
+        console.log("imageWidth", imageWidth);
 
-        console.log("Left arrow clicked");
         if (isScrolling) return;
 
         isScrolling = true;
-        console.log("now True");
         programmaticScroll = true;
+        console.log("scroll true, program true");
 
-        if (imagesWrapper.scrollLeft > 0) {
-            if (imageIndex > 0) {
-                targetScroll = imagesWrapper.scrollLeft - 540;
-                imagesWrapper.scrollTo({
-                    left: imagesWrapper.scrollLeft - 540,
-                    behavior: "smooth",
-                });
+        let previousIndex = imageIndex;
 
-                const dotNowDiv = document.querySelector(
-                    `.img-nav-button-${imageIndex}`
-                );
-                const dotLastDiv = document.querySelector(
-                    `.img-nav-button-${imageIndex + 1}`
-                );
-                dotNowDiv.classList.add("img-nav-button-active");
-                dotLastDiv.classList.remove("img-nav-button-active");
-
-                imageIndex--;
-                console.log("left", imageIndex);
-            }
+        if (imageIndex > 0) {
+            imageIndex--;
         } else {
-            targetScroll = maxScrollLeft;
-            imagesWrapper.scrollTo({
-                left: maxScrollLeft,
-                behavior: "smooth",
-            });
-
-            console.log("imageCount", imageCount);
-
-            const dotFirstDiv = document.querySelector(".img-nav-button-1");
-            const dotEndDiv = document.querySelector(
-                `.img-nav-button-${imageCount}`
-            );
-            dotFirstDiv.classList.remove("img-nav-button-active");
-            dotEndDiv.classList.add("img-nav-button-active");
-
             imageIndex = imageCount - 1;
-            console.log("go to last", imageIndex);
         }
+        console.log("LEFT", "imageIndex", imageIndex);
+        updateDots(imageIndex, previousIndex);
+
+        let documentWidth = document.documentElement.clientWidth;
+        let windowWidth = window.innerWidth;
+        let screenWidth = window.screen.width;
+        console.log("documentWidth", documentWidth);
+        console.log("innerWidth", windowWidth);
+        console.log("screenWidth", screenWidth);
+
+        targetScroll = imageIndex * imageWidth;
+        console.log("👉 targetScroll", targetScroll);
 
         function checkIfScrollingFinished() {
             if (Math.abs(imagesWrapper.scrollLeft - targetScroll) < 1) {
+                imagesWrapper.scrollLeft = targetScroll;
                 isScrolling = false;
                 programmaticScroll = false;
-                console.log("now False");
+                console.log("scroll false, program False");
             } else {
                 requestAnimationFrame(checkIfScrollingFinished);
             }
         }
         requestAnimationFrame(checkIfScrollingFinished);
+
+        imagesWrapper.scrollTo({
+            left: targetScroll,
+            behavior: "smooth",
+        });
+
+        const maxScrollLeft =
+            imagesWrapper.scrollWidth - imagesWrapper.clientWidth;
+        console.log(imagesWrapper.scrollLeft, maxScrollLeft);
     });
 
     rightArrowButton.addEventListener("click", function () {
-        const maxScrollLeft =
-            imagesWrapper.scrollWidth - imagesWrapper.clientWidth;
+        let imageWidth = getImageWidth();
+        console.log("imageWidth", imageWidth);
 
         if (isScrolling) return;
 
         isScrolling = true;
-        console.log("now True");
         programmaticScroll = true;
 
-        console.log(imagesWrapper.scrollLeft, maxScrollLeft);
+        let previousIndex = imageIndex;
 
-        if (imagesWrapper.scrollLeft < maxScrollLeft) {
-            if (imageIndex < imageCount) {
-                targetScroll = imagesWrapper.scrollLeft + 540;
-                imagesWrapper.scrollTo({
-                    left: imagesWrapper.scrollLeft + 540,
-                    behavior: "smooth",
-                });
-
-                const dotNowDiv = document.querySelector(
-                    `.img-nav-button-${imageIndex + 2}`
-                );
-                const dotLastDiv = document.querySelector(
-                    `.img-nav-button-${imageIndex + 1}`
-                );
-                dotNowDiv.classList.add("img-nav-button-active");
-                dotLastDiv.classList.remove("img-nav-button-active");
-
-                imageIndex++;
-                console.log("right", imageIndex);
-            }
+        if (imageIndex < imageCount - 1) {
+            imageIndex++;
         } else {
-            targetScroll = 0;
-            imagesWrapper.scrollTo({
-                left: 0,
-                behavior: "smooth",
-            });
-
-            const dotFirstDiv = document.querySelector(".img-nav-button-1");
-            const dotEndDiv = document.querySelector(
-                `.img-nav-button-${imageCount}`
-            );
-            dotFirstDiv.classList.add("img-nav-button-active");
-            dotEndDiv.classList.remove("img-nav-button-active");
-
             imageIndex = 0;
-            console.log("back to start", imageIndex);
         }
+
+        console.log("RIGHT", "imageIndex", imageIndex);
+        updateDots(imageIndex, previousIndex);
+
+        let documentWidth = document.documentElement.clientWidth; // 如果你想要獲取不包括捲軸的視窗寬度
+        let windowWidth = window.innerWidth;
+        let screenWidth = window.screen.width;
+        console.log("documentWidth", documentWidth);
+        console.log("innerWidth", windowWidth);
+        console.log("screenWidth", screenWidth);
+
+        targetScroll = imageIndex * imageWidth;
+        console.log("👉 targetScroll", targetScroll);
 
         function checkIfScrollingFinished() {
             if (Math.abs(imagesWrapper.scrollLeft - targetScroll) < 1) {
+                imagesWrapper.scrollLeft = targetScroll;
                 isScrolling = false;
                 programmaticScroll = false;
-                console.log("now False");
+                console.log("scroll false, program False");
             } else {
                 requestAnimationFrame(checkIfScrollingFinished);
             }
         }
         requestAnimationFrame(checkIfScrollingFinished);
+
+        imagesWrapper.scrollTo({
+            left: targetScroll,
+            behavior: "smooth",
+        });
+
+        const maxScrollLeft =
+            imagesWrapper.scrollWidth - imagesWrapper.clientWidth;
+        console.log(imagesWrapper.scrollLeft, maxScrollLeft);
     });
 }
 

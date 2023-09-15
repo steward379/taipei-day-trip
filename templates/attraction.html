@@ -12,7 +12,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/53c20d969e.js" crossorigin="anonymous"></script>
   <script src="{{ url_for('static', filename='js/attraction.js') }}"></script>
-
 </head>
 
 <body>
@@ -35,6 +34,7 @@
           <li class="nav-item nav-item-2">登入/註冊</li>
         </ul>
       </nav>
+      <hr class="nav-line" />
     </header>
     <main>
       <div class="photo-section">
@@ -54,35 +54,37 @@
         </div>
         <div class="photo-data">
           <h3 class="attraction-name">【 景點.名稱 name】</h3>
-          <span class="attraction-category ">【 景點.類型 category 】</span><span>at</span><span class="attraction-mrt">【 景點.捷運站 mrt 】</span>
+          <p class="attraction-subtitle"><span class="attraction-category ">【 景點.類型 category 】</span> at <span class="attraction-mrt">【 景點.捷運站 mrt 】</span></p>
           <div class="photo-booking">
             <form class="photo-booking-form">
-              <span class="photo-booking-title"> 訂購導覽行程</span><br>
-              <span> 以此景點為中心的一日行程，帶您探索城市角落故事</span><br>
-
-              <label for="photo-date">選擇日期：</label>
-              <date type="date" id="photo-date" class="photo-date"> </date>
-              <br>
-              <label>選擇時間：</label>
-              <input type="radio" id="morning" name="photo-radio" value="上半天">
-              <label for="morning">上半天</label>
-              <br>
-              <input type="radio" id="afternoon" name="photo-radio" value="下半天">
-              <label for="afternoon">下半天</label>
-              <br>
-              <label for="photo-fee">導覽費用：</label>
-              <p id="photo-fee" class="photo-fee">新台幣 2000 元</p>
-
-              <button type="submit">開始預約行程</button>
+              <span class="photo-booking-title"> 訂購導覽行程</span>
+              <span class="photo-subtitle"> 以此景點為中心的一日行程，帶您探索城市角落故事</span>
+              <div class="data-wrapper">
+                <label for="photo-date">選擇日期：</label>
+                <input type="date" id="photo-date" class="photo-date"> </input>
+              </div>
+              <div class="radio-wrapper">
+                <label class="photo-time">選擇時間：</label>
+                <input type="radio" id="morning" name="photo-radio" value="上半天">
+                <label for="morning" class="radio-label">上半天</label>
+                <input type="radio" id="afternoon" name="photo-radio" value="下半天">
+                <label for="afternoon" class="radio-label">下半天</label>
+              </div>
+              <div class="fee-wrapper">
+                <label for="photo-fee">導覽費用：</label>
+                <p id="photo-fee" class="photo-fee">新台幣 2000 元</p>
+              </div>
+              <button class="photo-submit" type="submit">開始預約行程</button>
             </form>
           </div>
         </div>
       </div>
+      <hr class="division-line" />
       <div class="attraction-essay">
-        <p class="attraction-description"> </p>
-        景點地址：<br>
-        <span class="attraction-address"> 景點.地址 address</span>
-        <br>交通方式：<br>
+        <p class="attraction-description"> 景點.description </p>
+        <span class="attraction-address-title">景點地址：</span><br>
+        <span class="attraction-address"> 景點.地址 address</span><br>
+        <span class="attraction-transport-title">交通方式：</span>
         <p class="attraction-transport">景點.交通方式 transport</p>
       </div>
     </main>

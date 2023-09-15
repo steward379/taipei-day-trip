@@ -24,6 +24,9 @@ $search-bar-mobile-width: 285px;
       font-family: 'Noto Sans TC';
       src: url('/path/to/NotoSansTC-Regular.otf') format('opentype');
   } */
+
+@import url("https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Noto+Sans+TC:wght@200;400;500;700&family=Redacted+Script&display=swap");
+
 @mixin h1-slogan {
     font-weight: 700;
     font-size: 28px;
@@ -133,6 +136,10 @@ body {
             color: black;
         }
     }
+}
+.nav-line {
+    width: 100%;
+    border: 1px $secondary-color-20 solid;
 }
 // nav {
 //     #hamburger-menu-click {

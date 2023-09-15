@@ -1,4 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Noto+Sans+TC:wght@200;400;500;700&family=Redacted+Script&display=swap");
 /* @font-face {
+    
       font-family: 'Noto Sans TC';
       src: url('/path/to/NotoSansTC-Regular.otf') format('opentype');
   } */
@@ -12,6 +14,7 @@ body {
   font-weight: 500;
   font-size: 16px;
   line-height: 13.3px;
+  font-family: "Noto Sans TC", sans-serif;
 }
 
 body a {
@@ -65,6 +68,11 @@ body button {
 
 .nav-list .nav-item:hover {
   color: black;
+}
+
+.nav-line {
+  width: 100%;
+  border: 1px #e8e8e8 solid;
 }
 
 main {

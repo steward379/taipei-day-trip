@@ -1,89 +1,14 @@
-$primary-color: #448899; //cyan-70, #489
-$primary-color-50: #6ab;
-$primary-color-20: #ade;
-$secondary-color: #666666; //gray-70, #666
-$secondary-color-50: #757575;
-$secondary-color-20: #e8e8e8;
-$secondary-color-10: #f8f8f8;
-$gradient1: linear-gradient(45deg, #aaddee, #66aabb);
-$gradient2: linear-gradient(0deg, #337788, #66aabb);
-$support-color-blue-gray: #aabbcc;
-$real-white: #fff;
-$font: "Noto Sans TC", sans-serif;
-$font-regular-size: 16px;
-$basic-border-radius: 5px;
-$basic-padding: 10px;
-$input-padding: 15px;
-$max-width: 1200px;
-$header-height: 54px;
-$welcome-visible-height: 320px;
-$search-bar-height: 46px;
-$search-bar-desktop-width: 460px;
-$search-bar-mobile-width: 285px;
+@import "base";
 
-/* @font-face {
-      font-family: 'Noto Sans TC';
-      src: url('/path/to/NotoSansTC-Regular.otf') format('opentype');
-  } */
-@mixin h1-slogan {
-    font-weight: 700;
-    font-size: 28px;
-    line-height: 24px;
+main {
+    margin-top: 54px;
+    margin-bottom: 134px;
 }
-@mixin h2-headline {
-    font-weight: 700;
-    font-size: 30px;
-    line-height: 34px;
-}
-@mixin h3-dialog {
-    // font-weight: 700;
-    // font-weight: 400;
-    //  // regular, css=normal
-    font-size: 24px;
-    line-height: 24px;
-}
-@mixin button-text {
-    // font-weight: 400;
-    // // default  regular, css=normal
-
-    // font-weight: 700;
-    font-size: 19px;
-    line-height: 16px;
-}
-@mixin content-text {
-    // font-weight: 400;
-    // // default regular, css=normal
-
-    // font-weight: 700;
-    font-size: 16px;
-    line-height: auto;
-}
-@mixin body-text {
-    font-weight: 500;
-    // change default to medium (500)
-    // font-weight: 700;
-    font-size: 16px;
-    line-height: 13.3px;
-}
-@mixin list-text {
-    font-weight: 500; // medium
-    font-size: 14px;
-    line-height: auto;
-}
-@mixin input-default {
-    @include body-text;
-    background-color: $real-white;
-    border-radius: $basic-border-radius;
-    outline: none;
-    border: 1px solid #ccc;
-}
-
-// code here
 
 .photo-section {
     display: flex;
     flex: 1 1 50%;
-    margin-top: 54px;
+    margin-top: 37px;
     padding: 0 15px;
     justify-content: space-between;
     align-items: center;
@@ -103,7 +28,9 @@ $search-bar-mobile-width: 285px;
     height: 406px;
     padding: 0;
     margin: 0;
-    background: #000;
+    background: none;
+
+    overflow-y: hidden;
     // white-space: nowrap;
 
     /* 讓內容超出時能左右滾動 */
@@ -122,23 +49,13 @@ $search-bar-mobile-width: 285px;
 
     .attraction-image {
         // position: absolute;
+        // height: auto;
+        height: 406px;
+        // width: 540px; /* contain, 固定寬度為 540px */
+        // max-height: 406px; /* contain, 最大高度為 406px */
         min-width: 540px;
-        min-height: 100%;
-        max-height: 406px;
-        object-fit: contain;
+        object-fit: cover;
     }
-
-    // .keyword-button {
-    //     @include body-text;
-    //     color: $secondary-color-50;
-    //     background-color: $real-white;
-    //     margin: 0;
-    //     padding: 5px 15px;
-
-    //     &:hover {
-    //         color: black;
-    //     }
-    // }
 }
 .arrow-button {
     z-index: 999;
@@ -192,31 +109,195 @@ $search-bar-mobile-width: 285px;
 }
 
 .img-nav-button-active {
-    stroke-width: 1px;
     background: black;
+    border: 1px solid white;
 }
 
 // right side
 .photo-data {
     width: 600px;
-
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    line-height: 13.3px;
+    color: $secondary-color;
 
     .photo-booking-form {
         display: flex;
         flex-direction: column;
-        line-height: 13.3px;
-        background: lightgray;
     }
 }
 .attraction-essay {
+    max-width: $max-width;
     line-height: 30px;
 }
+
 // formatter
 .attraction-name {
     @include h3-dialog;
     font-weight: 700;
+    margin-bottom: 15px;
+}
+.attraction-subtitle {
+    margin-bottom: 20px;
+}
+.photo-booking {
+    height: 302px;
+    padding: 15px 20px;
+    background: lightgray;
+    font-weight: 700;
+    border-radius: $basic-border-radius;
+
+    .photo-booking-title {
+        margin-bottom: 15px;
+    }
+    .photo-subtitle {
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+    .photo-date {
+        margin-bottom: 24px;
+    }
+    .radio-label {
+        font-weight: 500;
+        margin-left: 4px;
+    }
+    .radio-wrapper {
+        margin-bottom: 19px;
+    }
+    .fee-wrapper {
+        margin-bottom: 25px;
+    }
+    .photo-fee {
+        font-weight: 500;
+        margin-left: 5px;
+    }
+}
+// form-format
+
+.photo-time {
+    margin-right: 10px;
+}
+
+.radio-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.radio-label {
+    margin-right: 18px;
+}
+
+.fee-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+input[type="date"] {
+    border: none;
+    padding: 5px 10px;
+}
+
+input[type="radio"] {
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    margin-right: 4px;
+    border-radius: 50%;
+    border: none;
+    background: white;
+}
+
+// input[type="radio"]:checked + .radio-label {
+input[type="radio"]:checked {
+    background: teal;
+    border: 2px solid rgb(255, 255, 255);
+}
+
+.photo-submit {
+    padding: 10px 20px;
+    width: 154px;
+    background: teal;
+    color: white;
+    border-radius: $basic-border-radius;
+    border: 5px;
+
+    @include button-text;
+}
+
+// hr
+
+.division-line {
+    width: $max-width;
+    border: 1px $secondary-color-20 solid;
+    margin-top: 37px;
+    margin-bottom: 50px;
+}
+
+//description
+
+.attraction-description,
+.attraction-address,
+.attraction-transport {
+    @include content-text;
+}
+.attraction-description {
+    margin-bottom: 20px;
+}
+.attraction-address {
+    margin-bottom: 20px;
+}
+
+.attraction-address-title,
+.attraction-transport-title {
+    @include body-text;
+    font-weight: 700;
+}
+
+@media (max-width: 1200px) {
+    .attraction-essay {
+        width: calc(100% - 30px);
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+    .division-line {
+        width: calc(100% - 20px);
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .button-list-wrapper .left-arrow {
+        left: 15px;
+    }
+    .button-list-wrapper .right-arrow {
+        right: 15px;
+    }
+}
+
+@media (max-width: 940px) {
+    .photo-section {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .photo-data {
+        width: 100%;
+        max-width: 540px;
+    }
+}
+@media (max-width: 580px) {
+    .images-wrapper {
+        // flex-wrap: nowrap;
+        // overflow: hidden;
+
+        .attraction-image {
+            // position: absolute;
+            height: 350px;
+
+            // flex: 0 0 auto; // 不可縮小
+            // max-width: 100%;
+            // width: 100vw;
+            width: auto;
+            min-height: 100%;
+            object-fit: cover; //contain ->cover
+        }
+    }
 }

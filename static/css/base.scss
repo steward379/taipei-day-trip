@@ -21,7 +21,10 @@ $search-bar-height: 46px;
 $search-bar-desktop-width: 460px;
 $search-bar-mobile-width: 285px;
 
+@import url("https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Noto+Sans+TC:wght@200;400;500;700&family=Redacted+Script&display=swap");
+
 /* @font-face {
+    
       font-family: 'Noto Sans TC';
       src: url('/path/to/NotoSansTC-Regular.otf') format('opentype');
   } */
@@ -84,7 +87,7 @@ $search-bar-mobile-width: 285px;
 }
 body {
     @include body-text;
-    // font-family: $font;
+    font-family: $font;
     // font-size: $font-regular-size;
     a {
         text-decoration: none;
@@ -115,7 +118,6 @@ body {
         align-items: center;
     }
 }
-
 .logotype-h2 {
     @include h2-headline;
     color: $primary-color;
@@ -134,6 +136,10 @@ body {
             color: black;
         }
     }
+}
+.nav-line {
+    width: 100%;
+    border: 1px $secondary-color-20 solid;
 }
 // main
 main {
