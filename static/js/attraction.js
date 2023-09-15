@@ -270,11 +270,17 @@ async function arrowMotion(imageCount) {
             }
         }
         requestAnimationFrame(checkIfScrollingFinished);
-
-        imagesWrapper.scrollTo({
-            left: targetScroll,
-            behavior: "smooth",
-        });
+        if (imageIndex === 0) {
+            imagesWrapper.scrollTo({
+                left: targetScroll,
+                behavior: "instant", //instant
+            });
+        } else {
+            imagesWrapper.scrollTo({
+                left: targetScroll,
+                behavior: "smooth", //instant
+            });
+        }
 
         const maxScrollLeft =
             imagesWrapper.scrollWidth - imagesWrapper.clientWidth;

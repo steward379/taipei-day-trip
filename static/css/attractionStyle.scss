@@ -229,7 +229,10 @@ input[type="radio"]:checked {
 
 .division-line {
     width: $max-width;
-    border: 1px $secondary-color-20 solid;
+    // border: 1px $secondary-color-20 solid;
+    height: 1px;
+    background: $secondary-color-20;
+    border: none;
     margin-top: 37px;
     margin-bottom: 50px;
 }
@@ -265,6 +268,9 @@ input[type="radio"]:checked {
         margin-left: 10px;
         margin-right: 10px;
     }
+    .button-list-wrapper {
+        margin-top: 0;
+    }
     .button-list-wrapper .left-arrow {
         left: 15px;
     }
@@ -285,6 +291,11 @@ input[type="radio"]:checked {
     }
 }
 @media (max-width: 580px) {
+    main,
+    .photo-section {
+        margin-top: 0;
+    }
+
     .images-wrapper {
         // flex-wrap: nowrap;
         // overflow: hidden;
