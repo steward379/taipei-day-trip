@@ -73,7 +73,9 @@ body button {
 
 .nav-line {
   width: 100%;
-  border: 1px #e8e8e8 solid;
+  height: 1px;
+  background: #e8e8e8;
+  border: none;
 }
 
 main {
@@ -103,9 +105,6 @@ footer {
   }
   .nav-wrapper {
     padding: 10px;
-  }
-  .jumbotron .jumbotron-text {
-    margin: 0 20px;
   }
   .button-list-wrapper {
     margin: 40px 15px 20px 15px;
