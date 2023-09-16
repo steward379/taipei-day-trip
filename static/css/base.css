@@ -72,7 +72,8 @@ body button {
 
 .nav-line {
   width: 100%;
-  border: 1px #e8e8e8 solid;
+  height: 1px;
+  background: #e8e8e8;
 }
 
 main {

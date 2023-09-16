@@ -139,7 +139,8 @@ body {
 }
 .nav-line {
     width: 100%;
-    border: 1px $secondary-color-20 solid;
+    height: 1px;
+    background: $secondary-color-20;
 }
 // main
 main {

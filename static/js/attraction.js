@@ -1,5 +1,6 @@
 // http://54.253.20.174/
 const domainURL = `http://127.0.0.1:`;
+// const domainURL = `http://54.253.20.174:`;
 const port = `3000`;
 
 function getAttractionIdFromURL() {
@@ -38,6 +39,7 @@ async function initialize(id) {
             const attractionDescription = document.querySelector(
                 ".attraction-description"
             );
+
             const attractionAddress = document.querySelector(
                 ".attraction-address"
             );
