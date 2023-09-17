@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" user-scalable=1>
   <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/newStyle-1.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.min.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/53c20d969e.js" crossorigin="anonymous"></script>
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
@@ -34,6 +34,7 @@
           <li class="nav-item nav-item-2">登入/註冊</li>
         </ul>
       </nav>
+      <hr class="nav-line" />
     </header>
     <!-- hero section -->
     <div class="jumbotron" style="background-image: url({{ url_for('static', filename='images/jumbotron-bg.png') }});">

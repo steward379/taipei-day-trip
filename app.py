@@ -16,7 +16,7 @@ password = os.environ.get("DB_PASSWORD")
 def connect_to_db():
     if password is None:
         raise ValueError("Database password is not set!")
-    return MySQLdb.connect(user='root', passwd=password, host='localhost', db='taipei_day_trip', charset='utf8mb4')
+    return MySQLdb.connect(user='root', passwd=password, host='localhost', db='taipei_day_trip_new', charset='utf8mb4')
 
 def bytes_to_str(data):
     if isinstance(data, bytes):
@@ -37,6 +37,7 @@ def index():
 @app.route("/attraction/<id>")
 def attraction(id):
 	return render_template("attraction.html")
+    #return render_template("attraction.html", attraction_id=id)
 
 @app.route("/booking")
 def booking():
@@ -61,6 +62,7 @@ def fetch_attraction_data(attraction_raw, cursor):
         'description': attraction_raw['description'],
         'address': attraction_raw['address'],
         'mrt': attraction_raw['MRT'],
+        'transport': attraction_raw['direction'],
         'lat': attraction_raw['lat'],
         'lng': attraction_raw['lng'],
         'images': images
@@ -99,7 +101,7 @@ def get_attractions():
         total_count = cursor.fetchone()['COUNT(*)']
         print(total_count)
 
-        query = "SELECT id, name, CAT as Category, description, address, mrt as MRT, ST_X(location) as lng, ST_Y(location) as lat FROM attractions "
+        query = "SELECT id, name, CAT as Category, description, address, direction ,mrt as MRT, ST_X(location) as lng, ST_Y(location) as lat FROM attractions "
         
         params_query = None
 
@@ -169,7 +171,8 @@ def get_attraction_by_id(attraction_id):
         connection = connect_to_db()
         cursor = connection.cursor(MySQLdb.cursors.DictCursor)
 
-        query = "SELECT id, name, CAT as Category, description, address, mrt as MRT, ST_X(location) as lng, ST_Y(location) as lat FROM attractions WHERE id = %s"
+        query = "SELECT id, name, CAT as Category, description, address, direction ,mrt as MRT, ST_X(location) as lng, ST_Y(location) as lat FROM attractions WHERE id = %s"
+        
         cursor.execute(query, (attraction_id,))
 
         attraction_raw = cursor.fetchone()

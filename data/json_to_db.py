@@ -6,7 +6,6 @@ import json
 import mysql.connector
 from mysql.connector import Error
 
-
 # os.chdir('../') # 會改變工作目錄，不合適
 # load_dotenv(dotenv_path="絕對路徑/.env")
 load_dotenv(dotenv_path="../.env")
@@ -31,13 +30,13 @@ try:
         json_data = json.load(f)
         meta_data = json_data['result']
         results = json_data['result']['results']
-    # connection = pymysql.connect(**db_settings)
+    # connection = pymysql.connect(**db_settings) 
     connection = mysql.connector.connect(**db_settings)
     if connection.is_connected():
         cursor = connection.cursor()
 
-        cursor.execute("CREATE DATABASE IF NOT EXISTS taipei_day_trip")
-        cursor.execute("USE taipei_day_trip")
+        cursor.execute("CREATE DATABASE IF NOT EXISTS taipei_day_trip_new")
+        cursor.execute("USE taipei_day_trip_new")
 
         create_meta_table_query = '''
         CREATE TABLE IF NOT EXISTS metadata (
@@ -103,7 +102,13 @@ try:
             # images_urls = [url for url in item["file"].split(';') if re.search(r'\.(jpg|png)$', url, re.IGNORECASE)]
             
             splitted = item["file"].split('https://')
-            image_urls = ['https://' + s for s in splitted[1:] if s.endswith('.jpg') or s.endswith('.png')]
+            image_urls = ['https://' + s for s in splitted[1:] if s.lower().endswith('.jpg') or s.lower().endswith('.png')]
+                          
+            #  image_urls = ['https://' + s for s in splitted[1:] if re.match(r'.*\.jpg$|.*\.png$', s, re.IGNORECASE)]]
+
+            # pattern = re.compile(r'.*\.jpg$|.*\.png$', re.IGNORECASE)  # re.IGNORECASE 使匹配變得不區分大小寫
+            # image_urls = ['https://' + s for s in splitted[1:] if pattern.match(s)]
+
             del item["file"]
 
             if '_id' in item:
