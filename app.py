@@ -86,6 +86,10 @@ def register():
         if cursor.fetchone():
             return jsonify({"error": True, "message": "Email 已被使用"}), 400
         
+        cursor.execute("SELECT * FROM users WHERE name = %s", (data["name"],))
+        if cursor.fetchone():
+            return jsonify({"error": True, "message": "名稱已被使用"}), 400
+        
 
         hashed_password = generate_password_hash(data["password"], method="sha256")
         
@@ -130,7 +134,8 @@ def login():
     finally:
         if connection:
             connection.close()
-    
+
+# confirm login status
 @app.route("/api/user/auth", methods=["GET"])
 def get_user():
     authorization_header = request.headers.get("Authorization")
