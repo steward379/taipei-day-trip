@@ -1,4 +1,3 @@
-// http://54.253.20.174/
 const domainURL = `http://127.0.0.1:`;
 // const domainURL = `http://54.253.20.174:`;
 const port = `3000`;
@@ -21,7 +20,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function initialize(id) {
-    let formatAPIurl = `${domainURL}${port}/api/attraction/${id}`;
+    // let formatAPIurl = `${domainURL}${port}/api/attraction/${id}`; // CORS
+    let formatAPIurl = `/api/attraction/${id}`;
 
     try {
         const response = await fetch(formatAPIurl);

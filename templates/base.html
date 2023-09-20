@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}phrase 2 - Week 2-BASE{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" user-scalable=1>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/53c20d969e.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.min.css') }}">
+  <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+  {% block head_extra %}
+  {% endblock %}
+</head>
+
+<body>
+  <div id="modal" class="modal">
+    <div class="color-bar"></div>
+    <div class="modal-content">
+      <span class="close-btn" id="close-modal">&times;</span>
+
+      <form id="login-form">
+        <h3 class="login-h3">登入會員帳號</h3>
+        <input class="login-input" type="text" placeholder="輸入電子信箱">
+        <input class="login-input" type="password" placeholder="輸入密碼">
+        <button type="submit" id="login-btn">登入帳戶</button>
+        <div class="go-to-register">還沒有帳戶？<a href="#" id="show-register">點此註冊</a></div>
+        <div id="login-error" class="error-message"></div>
+      </form>
+
+      <form id="register-form" style="display:none;">
+        <h3 class="register-h3">註冊會員帳號</h3>
+        <input class="register-input" type="text" id="register-name" placeholder="輸入姓名">
+        <input class="register-input" type="text" id="register-email" placeholder="輸入電子信箱">
+        <input class="register-input" type="password" id="register-password" placeholder="輸入密碼">
+        <button type="submit" id="register-btn">註冊新帳戶</button>
+        <div class="go-to-login">已經有新帳戶了？<a href="#" id="show-login">點此登入</a></div>
+        <div id="register-error" class="error-message"></div>
+      </form>
+
+    </div>
+  </div>
+  <header class="nav-wrapper">
+    <nav class="nav-content">
+      <h2 class="logotype-h2"><b><a href="/">台北一日遊</a></b></h2>
+      <!-- <input type="checkbox" id="hamburger-menu-click" /> 
+      <label for="hamburger-menu-click" class="hamburger-menu-label">
+      <svg class="hamburger-menu" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+          <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
+        </svg>
+        <svg class="xmark" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
+          <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+        </svg> -->
+      <!-- <div class="nav-list-accordion"></div>  -->
+      <!-- </label> -->
+      <ul class="nav-list">
+        <li class="nav-item nav-item-1">預定行程</li>
+        <li class="nav-item nav-item-2" id="open-login">登入/註冊</li>
+      </ul>
+    </nav>
+    <hr class="nav-line" />
+  </header>
+  {% block content %}
+
+  {% endblock %}
+  <footer>
+    <span>COPYRIGHT © 2021 台北一日遊</span>
+  </footer>
+  <script>
+  </script>
+</body>
+
+</html>

@@ -1,3 +1,7 @@
+const domainURL = `http://127.0.0.1:`;
+// const domainURL = `http://54.253.20.174:`;
+const port = `3000`;
+
 const state = {
     nextPage: null,
     currentPage: 0,
@@ -5,9 +9,6 @@ const state = {
     currentKeyword: "",
     mrtOnly: false,
 };
-// http://54.253.20.174/
-const domainURL = `http://127.0.0.1:`;
-const port = `3000`;
 
 let observer;
 
@@ -101,7 +102,8 @@ async function fetchData() {
         }.`
     );
     // const url = `http://54.253.20.174:3000/api/attractions?page=${currentPage}`;
-    let formatAPIurl = `${domainURL}${port}/api/attractions?page=${currentPage}`;
+    // let formatAPIurl = `${domainURL}${port}/api/attractions?page=${currentPage}`; //// CORS
+    let formatAPIurl = `/api/attractions?page=${currentPage}`;
     if (currentKeyword) {
         formatAPIurl += `&keyword=${currentKeyword}`;
         if (mrtOnly) {
@@ -187,8 +189,9 @@ function setupSearchButtonListener() {
 // MRT Buttons Line Up
 async function fetchMRTData() {
     try {
-        const url = `${domainURL}${port}/api/mrts`;
-        const response = await fetch(url);
+        // const urlMrt = `${domainURL}${port}/api/mrts`; // // CORS
+        const urlMrt = `/api/mrts`;
+        const response = await fetch(urlMrt);
         const dataMRT = await response.json();
 
         generateMRTButtons(dataMRT.data);
