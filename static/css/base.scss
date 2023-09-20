@@ -143,6 +143,50 @@ body {
     background: $secondary-color-20;
     border: none;
 }
+
+// modal
+.modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+
+    // display: flex;
+    // justify-content: start;
+    align-items: flex-start;
+}
+
+.modal-content {
+    position: relative;
+    margin: 300px auto auto auto;
+    padding: 20px;
+    background-color: #fff;
+    width: 300px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#register-form {
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+}
+
 // main
 main {
     max-width: $max-width;

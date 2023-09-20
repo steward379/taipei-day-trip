@@ -1,66 +1,46 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>phrase 2 - Week 2</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" user-scalable=1>
-  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.min.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/53c20d969e.js" crossorigin="anonymous"></script>
-  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <meta charset="UTF-8"> -->
+{% extends "base.html" %}
 
-</head>
+{% block title %}phrase 2 - Week 2-INDEX{% endblock %}
 
-<body>
-  <div class="container">
-    <header class="nav-wrapper">
-      <nav class="nav-content">
-        <h2 class="logotype-h2"><b><a href="/">台北一日遊</a></b></h2>
-        <!-- <input type="checkbox" id="hamburger-menu-click" /> 
-      <label for="hamburger-menu-click" class="hamburger-menu-label">
-      <svg class="hamburger-menu" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-          <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
-        </svg>
-        <svg class="xmark" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
-          <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
-        </svg> -->
-        <!-- <div class="nav-list-accordion"></div>  -->
-        <!-- </label> -->
-        <ul class="nav-list">
-          <li class="nav-item nav-item-1">預定行程</li>
-          <li class="nav-item nav-item-2">登入/註冊</li>
-        </ul>
-      </nav>
-      <hr class="nav-line" />
-    </header>
-    <!-- hero section -->
-    <div class="jumbotron" style="background-image: url({{ url_for('static', filename='images/jumbotron-bg.png') }});">
-      <div class="jumbotron-text">
-        <h1 class="slogan-h1">輕鬆享受台北一日悠閒</h1>
-        <p class="subtitle-p">探索每個角落，體驗城市的深度旅遊行程</p>
-        <div class="search-bar">
-          <input type="text" placeholder="輸入景點名稱查詢" id="search-input">
-          <button title="search-query" type="submit" id="search-button">
-            <!-- <i class="fas fa-search fa-l"></i> -->
-            <img width="30px" height="30px" src="{{ url_for('static', filename='images/search-icon.png') }}" alt="search-icon">
-          </button>
-        </div>
-      </div>
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.min.css') }}">
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
+<!-- </head> -->
+
+<!-- <body> -->
+<!-- header -->
+{% block content %}
+<!-- hero section -->
+<div class="jumbotron" style="background-image: url({{ url_for('static', filename='images/jumbotron-bg.png') }});">
+  <div class="jumbotron-text">
+    <h1 class="slogan-h1">輕鬆享受台北一日悠閒</h1>
+    <p class="subtitle-p">探索每個角落，體驗城市的深度旅遊行程</p>
+    <div class="search-bar">
+      <input type="text" placeholder="輸入景點名稱查詢" id="search-input">
+      <button title="search-query" type="submit" id="search-button">
+        <!-- <i class="fas fa-search fa-l"></i> -->
+        <img width="30px" height="30px" src="{{ url_for('static', filename='images/search-icon.png') }}" alt="search-icon">
+      </button>
     </div>
-    <!-- selection buttons -->
-    <div class="button-list-wrapper">
-      <button title="left-arrow" class="arrow-button left-arrow"><i class="fas fa-chevron-left fa-xs"></i></button>
-      <div class="button-wrapper">
-        <!-- <button class="keyword-button" data-keyword="關鍵字1">關鍵字1</button> -->
-      </div>
-      <button title="right-arrow" class="arrow-button right-arrow"><i class="fas fa-chevron-right fa-xs"></i></button>
-    </div>
-    <!-- the attraction lists -->
-    <main>
-      <!-- <ul class="photo-profile">
+  </div>
+</div>
+<!-- selection buttons -->
+<div class="button-list-wrapper">
+  <button title="left-arrow" class="arrow-button left-arrow"><i class="fas fa-chevron-left fa-xs"></i></button>
+  <div class="button-wrapper">
+    <!-- <button class="keyword-button" data-keyword="關鍵字1">關鍵字1</button> -->
+  </div>
+  <button title="right-arrow" class="arrow-button right-arrow"><i class="fas fa-chevron-right fa-xs"></i></button>
+</div>
+<!-- the attraction lists -->
+<main>
+  <!-- <ul class="photo-profile">
         <li class="profile-li profile-li-1">
           <div class="profile-img profile-img-1">
             <img alt="profile-img-1" class="main-image" src="http://placekitten.com/420/500" />
@@ -74,14 +54,11 @@
           </ul> 
         </li>
       </ul> -->
-    </main>
-  </div>
-  <footer>
-    <span>COPYRIGHT © 2021 台北一日遊</span>
-  </footer>
+</main>
+<script>
+</script>
+{% endblock %}
+<!-- footer -->
+<!-- </body> -->
 
-  <script>
-  </script>
-</body>
-
-</html>
+<!-- </html> -->

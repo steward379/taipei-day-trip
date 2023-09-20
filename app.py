@@ -1,14 +1,18 @@
-from flask import Flask, jsonify, request, render_template, Response
+from flask import Flask, jsonify, request, render_template, Response 
 import os
 import json
 import MySQLdb
 from dotenv import load_dotenv
-from datetime import date
+from datetime import date, datetime, timedelta
 from collections import OrderedDict
+
+import jwt
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
+app.config["SECRET_KEY"]="YourSecretKey"
 
 load_dotenv()
 password = os.environ.get("DB_PASSWORD")
@@ -16,13 +20,13 @@ password = os.environ.get("DB_PASSWORD")
 def connect_to_db():
     if password is None:
         raise ValueError("Database password is not set!")
-    return MySQLdb.connect(user='root', passwd=password, host='localhost', db='taipei_day_trip_new', charset='utf8mb4')
+    return MySQLdb.connect(user="root", passwd=password, host="localhost", db="taipei_day_trip_new", charset="utf8mb4")
 
 def bytes_to_str(data):
     if isinstance(data, bytes):
-        return data.decode('utf-8')
+        return data.decode("utf-8")
     if isinstance(data, date):
-        return data.strftime('%Y-%m-%d')
+        return data.strftime("%Y-%m-%d")
     if isinstance(data, dict):
         return {key: bytes_to_str(value) for key, value in data.items()}
     if isinstance(data, list) or isinstance(data, tuple):
@@ -50,32 +54,122 @@ def thankyou():
 def fetch_images_for_attraction(attraction_id, cursor):
     query = "SELECT image_url FROM attraction_images WHERE attraction_id = %s"
     cursor.execute(query, (attraction_id,))
-    images = [row['image_url'] for row in cursor.fetchall()]
+    images = [row["image_url"] for row in cursor.fetchall()]
     return images
 
 def fetch_attraction_data(attraction_raw, cursor):
-    images = fetch_images_for_attraction(attraction_raw['id'], cursor)
+    images = fetch_images_for_attraction(attraction_raw["id"], cursor)
     return {
-        'id': attraction_raw['id'],
-        'name': attraction_raw['name'],
-        'category': attraction_raw['Category'],
-        'description': attraction_raw['description'],
-        'address': attraction_raw['address'],
-        'mrt': attraction_raw['MRT'],
-        'transport': attraction_raw['direction'],
-        'lat': attraction_raw['lat'],
-        'lng': attraction_raw['lng'],
-        'images': images
+        "id": attraction_raw["id"],
+        "name": attraction_raw["name"],
+        "category": attraction_raw["Category"],
+        "description": attraction_raw["description"],
+        "address": attraction_raw["address"],
+        "mrt": attraction_raw["MRT"],
+        "transport": attraction_raw["direction"],
+        "lat": attraction_raw["lat"],
+        "lng": attraction_raw["lng"],
+        "images": images
     }
 
-@app.route('/api/attractions', methods=['GET'])
+# register
+@app.route("/api/user", methods=["POST"])
+def register():
+    connection = None
+    try:
+        connection = connect_to_db()
+        cursor = connection.cursor()
+
+        data = request.json
+
+        cursor.execute("SELECT * FROM users WHERE email = %s", (data["email"],))
+        if cursor.fetchone():
+            return jsonify({"error": True, "message": "Email 已被使用"}), 400
+        
+
+        hashed_password = generate_password_hash(data["password"], method="sha256")
+        
+        cursor.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s)",
+                       (data["name"], data["email"], hashed_password))
+
+        connection.commit()
+        # connection.close()
+
+        return jsonify({"ok": True}), 200
+    except Exception as e:
+        return jsonify({"error": True, "message": str(e)}), 400
+    finally:
+        if connection:
+            connection.close()
+    
+# login
+@app.route("/api/user/auth", methods=["POST"])
+def login():
+    connection = None
+    try:
+        connection = connect_to_db()
+        cursor = connection.cursor(MySQLdb.cursors.DictCursor)
+        data = request.json
+
+        cursor.execute("SELECT * FROM users WHERE email = %s", (data["email"],))
+        user = cursor.fetchone()
+
+        if not user or not check_password_hash(user["password"], data["password"]):
+            return jsonify({"error": True, "message": "帳密錯誤"}), 404
+
+        token = jwt.encode({
+            "id": user["id"],
+            "name": user["name"],
+            "email": user["email"],
+            "exp": datetime.utcnow() + timedelta(days=7)
+        }, app.config["SECRET_KEY"])
+
+        return jsonify({"token": token}), 200
+    except Exception as e:
+        return jsonify({"error": True, "message": str(e)}), 500
+    finally:
+        if connection:
+            connection.close()
+    
+@app.route("/api/user/auth", methods=["GET"])
+def get_user():
+    authorization_header = request.headers.get("Authorization")
+    # token = request.headers.get("Authorization").split(" ")[1]
+    if not authorization_header:
+        print(f"no authorization_header: {authorization_header}")
+        return jsonify({"data": None}), 200
+    
+    try:
+        token = authorization_header.split(" ")[1]
+    except IndexError:
+        print(f"can't split: {authorization_header}") 
+        return jsonify({"data": None}), 200
+    
+    if not token:
+        print(f"no token: {token}")  
+        return jsonify({"data": None}), 200
+    
+    try:
+        data = jwt.decode(token, app.config["SECRET_KEY"], algorithms=["HS256"]) #SHA-256
+        return jsonify({
+            "data": {
+                "id": data["id"],
+                "name": data["name"],
+                "email": data["email"]
+            }
+        }), 200
+    except Exception as e:
+        print(f"An error occurred: {e}")  # 考慮使用更進階的日誌記錄方式
+        return jsonify({"data": None}), 200
+
+@app.route("/api/attractions", methods=["GET"])
 def get_attractions():
     try:
-        page = int(request.args.get('page', 0))
-        keyword = request.args.get('keyword', None)
+        page = int(request.args.get("page", 0))
+        keyword = request.args.get("keyword", None)
 
         # mrtOnly       
-        mrtOnly = request.args.get('mrtOnly', 'false') == 'true'
+        mrtOnly = request.args.get("mrtOnly", "false") == "true"
         
         connection = connect_to_db()
         cursor = connection.cursor(MySQLdb.cursors.DictCursor)
@@ -98,7 +192,7 @@ def get_attractions():
 
         cursor.execute(query_count, params_count)
 
-        total_count = cursor.fetchone()['COUNT(*)']
+        total_count = cursor.fetchone()["COUNT(*)"]
         print(total_count)
 
         query = "SELECT id, name, CAT as Category, description, address, direction ,mrt as MRT, ST_X(location) as lng, ST_Y(location) as lat FROM attractions "
@@ -165,7 +259,7 @@ def get_attractions():
         return jsonify({"error": True, "message": str(e)}), 500
     
 
-@app.route('/api/attraction/<attraction_id>', methods=['GET'])
+@app.route("/api/attraction/<attraction_id>", methods=["GET"])
 def get_attraction_by_id(attraction_id):
     try:
         connection = connect_to_db()
@@ -195,7 +289,7 @@ def get_attraction_by_id(attraction_id):
         return jsonify({"error": True, "message": "伺服器內部錯誤"}), 500
     
 
-@app.route('/api/mrts', methods=['GET'])
+@app.route("/api/mrts", methods=["GET"])
 def get_mrts():
     try:
         connection = connect_to_db()
@@ -214,7 +308,7 @@ def get_mrts():
 
         result_raw = cursor.fetchall()
         
-        mrts = [row['mrt'] for row in result_raw]
+        mrts = [row["mrt"] for row in result_raw]
         
         connection.close()
 
