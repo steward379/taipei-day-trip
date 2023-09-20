@@ -158,6 +158,26 @@ body button {
   color: #666666;
 }
 
+.go-to-register #show-login,
+.go-to-register #show-register,
+.go-to-login #show-login,
+.go-to-login #show-register {
+  cursor: pointer;
+}
+
+.go-to-register #show-login:hover,
+.go-to-register #show-register:hover,
+.go-to-login #show-login:hover,
+.go-to-login #show-register:hover {
+  color: rgba(68, 136, 153, 0.8);
+}
+
+#register-error,
+#login-error {
+  margin: 15px auto 0 auto;
+  color: #eb4747;
+}
+
 main {
   max-width: 1200px;
   margin: auto;

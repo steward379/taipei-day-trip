@@ -29,16 +29,21 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.style.display = "none";
         loginForm.style.display = "flex";
         registerForm.style.display = "none";
+        registerError.style.color = rgb(235, 71, 71);
+        loginError.textContent = "";
+        registerError.textContent = "";
     });
 
     showRegister.addEventListener("click", function () {
         loginForm.style.display = "none";
         registerForm.style.display = "flex";
+        loginError.textContent = "";
     });
 
     showLogin.addEventListener("click", function () {
         loginForm.style.display = "flex";
         registerForm.style.display = "none";
+        registerError.textContent = "";
     });
 
     loginForm.addEventListener("submit", function (event) {
@@ -95,8 +100,10 @@ document.addEventListener("DOMContentLoaded", function () {
             .then((data) => {
                 if (data.ok) {
                     registerError.textContent = "註冊成功";
+                    registerError.style.color = "green";
                 } else {
                     // console.log(data.message);
+                    registerError.style.color = "rgb(235, 71, 71)";
                     registerError.textContent = data.message || "註冊失敗";
                 }
             });

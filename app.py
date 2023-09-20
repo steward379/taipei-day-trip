@@ -323,3 +323,10 @@ def get_mrts():
         return jsonify({"error": True, "message": "伺服器內部錯誤"}), 500
 
 app.run(host="0.0.0.0", port=3000)
+
+# CREATE TABLE users (
+#     id INT AUTO_INCREMENT PRIMARY KEY,
+#     name VARCHAR(50) UNIQUE NOT NULL,
+#     email VARCHAR(50) UNIQUE NOT NULL,
+#     password VARCHAR(255) NOT NULL
+# );

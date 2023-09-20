@@ -224,6 +224,21 @@ body {
 .go-to-login {
     margin: auto;
     color: $secondary-color;
+
+    #show-login,
+    #show-register {
+        cursor: pointer;
+
+        &:hover {
+            color: rgba($primary-color, 0.8);
+        }
+    }
+}
+
+#register-error,
+#login-error {
+    margin: 15px auto 0 auto;
+    color: rgb(235, 71, 71);
 }
 
 // main
