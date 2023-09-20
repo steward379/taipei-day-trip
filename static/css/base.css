@@ -176,6 +176,7 @@ body button {
 #login-error {
   margin: 15px auto 0 auto;
   color: #eb4747;
+  line-height: 18px;
 }
 
 main {
