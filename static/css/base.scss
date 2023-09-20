@@ -68,6 +68,7 @@ $search-bar-mobile-width: 285px;
     font-size: 16px;
     line-height: 13.3px;
 }
+
 @mixin list-text {
     font-weight: 500; // medium
     font-size: 14px;
@@ -80,6 +81,7 @@ $search-bar-mobile-width: 285px;
     outline: none;
     border: 1px solid #ccc;
 }
+
 *,
 *:before,
 *:after {
@@ -157,34 +159,71 @@ body {
 
     // display: flex;
     // justify-content: start;
+    flex-direction: column;
     align-items: flex-start;
 }
 
 .modal-content {
+    width: 340px;
     position: relative;
-    margin: 300px auto auto auto;
-    padding: 20px;
+    margin: 0 auto auto auto;
+    padding: 15px;
     background-color: #fff;
-    width: 300px;
+    border-radius: 0 0 6px 6px;
+}
+.color-bar {
+    width: 340px;
+    height: 10px;
+    margin: 80px auto 0 auto;
+    background: linear-gradient(270deg, #378 0%, #6ab 100%);
+    border-radius: 6px 6px 0 0;
 }
 
 .close-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 17px;
+    right: 17px;
     cursor: pointer;
+    font-size: 20px;
+    font-weight: 200;
+    color: rgba($secondary-color-50, 0.6);
 }
 
-#login-form {
+#login-form,
+#register-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
 }
 
-#register-form {
-    display: none;
-    flex-direction: column;
-    gap: 20px;
+.login-h3,
+.register-h3 {
+    @include h3-dialog;
+    font-weight: 700;
+    color: $secondary-color;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+.login-input,
+.register-input {
+    padding: 15px;
+    border-radius: $basic-border-radius;
+    border: 1px solid $secondary-color-20;
+    margin-bottom: 10px;
+}
+#login-btn,
+#register-btn {
+    @include button-text;
+    padding: 10px 20px;
+    background-color: $primary-color;
+    color: white;
+    border-radius: $basic-border-radius;
+    margin-bottom: 10px;
+}
+.go-to-register,
+.go-to-login {
+    margin: auto;
+    color: $secondary-color;
 }
 
 // main

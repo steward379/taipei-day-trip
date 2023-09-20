@@ -27,6 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     closeModal.addEventListener("click", function () {
         modal.style.display = "none";
+        loginForm.style.display = "flex";
+        registerForm.style.display = "none";
     });
 
     showRegister.addEventListener("click", function () {
