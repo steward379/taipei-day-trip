@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 發送 API 請求
         fetch("/api/user/auth", {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },

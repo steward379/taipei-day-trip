@@ -107,7 +107,7 @@ def register():
             connection.close()
     
 # login
-@app.route("/api/user/auth", methods=["POST"])
+@app.route("/api/user/auth", methods=["PUT"])
 def login():
     connection = None
     try:
