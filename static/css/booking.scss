@@ -1,0 +1,50 @@
+@import "base";
+main {
+    max-width: 1000px;
+    align-items: start;
+}
+
+.booking-list-h3 {
+    @include button-text;
+    margin-top: 54+46px;
+    margin-bottom: 35px;
+}
+
+.booking-cube-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .booking-cube {
+        display: flex;
+        justify-content: start;
+        gap: 10px;
+        position: relative;
+    }
+}
+.delete-booking {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.booking-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+
+    input {
+        max-width: 180px;
+    }
+}
+.booking-submit {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 20px;
+}

@@ -215,6 +215,8 @@ input[type="radio"]:checked {
 }
 
 .photo-submit {
+    @include button-text;
+
     padding: 10px 20px;
     background: $primary-color;
     color: white;
@@ -222,8 +224,6 @@ input[type="radio"]:checked {
     max-width: 158px; //157px
     border-radius: $basic-border-radius;
     border: 5px;
-
-    @include button-text;
 }
 
 // hr

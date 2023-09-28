@@ -50,8 +50,8 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.style.display = "none";
 
         // 清空登入表單
-        document.querySelector("#login-form input[type='text']").value = "";
-        document.querySelector("#login-form input[type='password']").value = "";
+        document.querySelector("#login-email").value = "";
+        document.querySelector("#login-password").value = "";
         loginError.textContent = "";
         //改為預設值
         loginForm.style.display = "flex";
@@ -62,19 +62,39 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#register-password").value = "";
         registerError.textContent = "";
         //改為預設值
-        registerError.style.color = rgb(235, 71, 71);
+        registerError.style.color = "rgb(235, 71, 71)";
         registerForm.style.display = "none";
     }
+
+    const bookingTrip = document.querySelector("#booking-trip");
+
+    bookingTrip.addEventListener("click", async function () {
+        if (!localStorage.getItem("token")) {
+            modal.style.display = "flex";
+        } else {
+            const response = await fetch("/api/user/auth", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${localStorage.getItem("token")}`,
+                },
+            });
+
+            const responseData = await response.json();
+
+            if (responseData.data !== null) {
+                window.open(window.location.origin + "/booking", "_self");
+            } else {
+                modal.style.display = "flex";
+            }
+        }
+    });
 
     loginForm.addEventListener("submit", function (event) {
         event.preventDefault();
         //  Ajax?
-        const email = document
-            .querySelector("#login-form input[type='text']")
-            .value.trim();
-        const password = document
-            .querySelector("#login-form input[type='password']")
-            .value.trim();
+        const email = document.querySelector("#login-email").value.trim();
+        const password = document.querySelector("#login-password").value.trim();
 
         if (!email || !password) {
             loginError.textContent = "請填寫所有必填欄位";
@@ -178,18 +198,14 @@ document.addEventListener("DOMContentLoaded", function () {
     checkLoginStatus();
 
     function checkLoginStatus() {
-        console.log("checking");
-
         fetch("/api/user/auth", {
             method: "GET",
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `${localStorage.getItem("token")}`,
             },
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
-
                 if (data && data.data) {
                     openLoginBtn.textContent = "登出系統";
                 } else {
