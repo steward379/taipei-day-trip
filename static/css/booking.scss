@@ -1,12 +1,25 @@
 @import "base";
+
 main {
-    max-width: 1000px;
     align-items: start;
+}
+.booking-area,
+.booking-submit {
+    // rwd
+    width: 1000px;
+    margin: 0 auto;
+}
+.division-line {
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
 
 .booking-list-h3 {
     @include button-text;
-    margin-top: 54+46px;
+    // margin-top: calc($header-height+46px);
+    font-weight: 700;
+    color: $secondary-color;
+    margin-top: 97px;
     margin-bottom: 35px;
 }
 
@@ -16,20 +29,39 @@ main {
     width: 100%;
     .booking-cube {
         display: flex;
-        justify-content: start;
-        gap: 10px;
         position: relative;
+        justify-content: start;
+        gap: 22px;
     }
 }
 .delete-booking {
     position: absolute;
-    top: 0;
     right: 0;
+    top: 0;
+    bottom: auto;
+}
+.booking-image {
+    padding-left: 8px;
+    padding-right: 8px;
 }
 .booking-details {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    color: $secondary-color;
+
+    .booking-title {
+        font-weight: 700;
+        color: $primary-color;
+        margin-top: 5px;
+        margin-bottom: 20px;
+    }
+    .booking-subtitle {
+        margin-bottom: 10px;
+    }
+    .booking-subtitle-bold {
+        font-weight: 700;
+    }
 }
 
 .booking-form {
@@ -37,14 +69,83 @@ main {
     flex-direction: column;
     width: 100%;
     gap: 10px;
+    color: $secondary-color;
 
     input {
         max-width: 180px;
+        padding: 10px;
+        border-radius: $basic-border-radius;
+        border: 1px solid $secondary-color-20;
+    }
+    .booking-form-subtitle {
+        @include button-text;
+        font-weight: 700;
+        margin-bottom: 24px;
+    }
+    .booking-input-div {
+        margin-bottom: 15px;
+    }
+
+    .last-input-div {
+        margin-bottom: 0;
+    }
+
+    .booking-warning {
+        margin-top: 5px;
+        font-weight: 700;
     }
 }
+
+.booking-form-area {
+    display: flex;
+    flex-direction: column;
+}
+
 .booking-submit {
     display: flex;
     flex-direction: column;
     align-items: end;
-    gap: 20px;
+    gap: 25px;
+
+    .booking-total-title {
+        font-weight: 700;
+    }
+    .confirm-booking {
+        @include button-text;
+        @include primary-button;
+    }
+}
+
+@media (max-width: 1200px) {
+    .booking-area,
+    .booking-submit {
+        // rwd
+        width: 100%;
+    }
+    main {
+        margin: 0 10px;
+        .booking-image {
+            padding: 0;
+        }
+    }
+}
+
+@media (max-width: 630px) {
+    body {
+        line-height: normal;
+    }
+    .booking-cube {
+        flex-direction: column;
+    }
+    .booking-details {
+        margin-bottom: 20px;
+    }
+
+    .delete-booking {
+        top: auto;
+        bottom: 0;
+    }
+    .main-division-line {
+        margin-top: 30px;
+    }
 }

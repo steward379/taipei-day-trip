@@ -60,6 +60,9 @@ async function initialize(id) {
             const feeElement = document.getElementById("photo-fee");
             const morningRadio = document.getElementById("morning");
             const afternoonRadio = document.getElementById("afternoon");
+            const dateElement = document.getElementById("photo-date");
+
+            dateNormalize(dateElement);
 
             morningRadio.addEventListener("change", function () {
                 feeElement.textContent = "新台幣 2000 元";
@@ -76,7 +79,13 @@ async function initialize(id) {
                 event.preventDefault();
 
                 checkUserLoggedIn();
-                SendBookingData(id, feeElement, morningRadio, afternoonRadio);
+                SendBookingData(
+                    id,
+                    dateElement,
+                    feeElement,
+                    morningRadio,
+                    afternoonRadio
+                );
                 // window.open(window.location.origin + "/booking", "_self");
             };
 
@@ -115,16 +124,31 @@ async function initialize(id) {
         console.log(error);
     }
 }
+function dateNormalize(dateElement) {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+
+    // 日期和月份需要為雙位數
+    if (month < 10) {
+        month = `0${month}`;
+    }
+    if (day < 10) {
+        day = `0${day}`;
+    }
+
+    const minDate = `${year}-${month}-${day}`;
+    dateElement.setAttribute("min", minDate);
+}
 
 function checkUserLoggedIn() {
     const token = localStorage.getItem("token"); // 假設使用者的 JWT Token 存在本地存儲的 "userToken" 鍵下
     return token !== null;
 }
 
-async function SendBookingData(id, fee, morning, afternoon) {
+async function SendBookingData(id, dateElement, fee, morning, afternoon) {
     const attractionId = id;
-
-    const dateElement = document.getElementById("photo-date");
 
     if (dateElement.value == "") {
         alert("請選擇日期");

@@ -9,6 +9,15 @@
       font-family: 'Noto Sans TC';
       src: url('/path/to/NotoSansTC-Regular.otf') format('opentype');
   } */
+.division-line {
+  width: 1200px;
+  height: 1px;
+  background: #e8e8e8;
+  border: none;
+  margin-top: 37px;
+  margin-bottom: 50px;
+}
+
 *,
 *:before,
 *:after {
@@ -20,6 +29,7 @@ body {
   font-size: 16px;
   line-height: 13.3px;
   font-family: "Noto Sans TC", sans-serif;
+  background-color: #757575;
 }
 
 body a {
@@ -181,6 +191,7 @@ body button {
 #login-error {
   margin: 15px auto 0 auto;
   color: #eb4747;
+  line-height: 18px;
 }
 
 main {
@@ -192,8 +203,21 @@ main {
   align-items: center;
 }
 
+/* 設定一個 flexbox 容器來包裹內容和 footer */
+.page-container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 允許內容區域彈性成長以填充空間 */
+.content-wrap {
+  background: #fff;
+  flex: 1;
+  padding-bottom: 40px;
+}
+
 footer {
-  margin-top: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -219,6 +243,11 @@ footer {
   }
   .button-list-wrapper .right-arrow {
     right: 0;
+  }
+  .division-line {
+    width: calc(100% - 20px);
+    margin-left: 10px;
+    margin-right: 10px;
   }
 }
 

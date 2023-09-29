@@ -113,7 +113,7 @@ async function fetchData() {
 
     console.log(formatAPIurl);
 
-    // renderdata(foramatAPIurl)
+    // renderData(formatAPIurl)
 
     try {
         const response = await fetch(formatAPIurl);

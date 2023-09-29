@@ -1,3 +1,22 @@
+function dateNormalize(dateElement) {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    // let day = today.getDate();
+
+    // 日期和月份需要為雙位數
+    if (month < 10) {
+        month = `0${month}`;
+    }
+    // if (day < 10) {
+    //     day = `0${day}`;
+    // }
+
+    // const minDate = `${year}-${month}-${day}`;
+    const minDate = `${year}-${month}`;
+    dateElement.setAttribute("min", minDate);
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
     const token = localStorage.getItem("token");
 
@@ -61,8 +80,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 data.attraction.address;
             document.querySelector(".booking-image").src =
                 data.attraction.image;
-            document.querySelector(".booking-total-fee").textContent =
-                data.price; // 更新總價
+            document.querySelector(".booking-total-fee").textContent = parseInt(
+                data.price
+            ); // 更新總價
         }
     }
 
@@ -89,4 +109,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.error("Error:", error);
         }
     });
+
+    const dateCredit = document.querySelector("#booking-credit-card-exp");
+
+    dateNormalize(dateCredit);
 });

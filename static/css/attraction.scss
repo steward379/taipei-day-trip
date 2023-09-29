@@ -216,27 +216,31 @@ input[type="radio"]:checked {
 
 .photo-submit {
     @include button-text;
+    @include primary-button;
 
-    padding: 10px 20px;
-    background: $primary-color;
-    color: white;
     min-width: 154px;
     max-width: 158px; //157px
-    border-radius: $basic-border-radius;
-    border: 5px;
+
+    // padding: 10px 20px;
+    // background: $primary-color;
+    // color: white;
+    // min-width: 154px;
+    // max-width: 158px; //157px
+    // border-radius: $basic-border-radius;
+    // border: 5px;
 }
 
 // hr
 
-.division-line {
-    width: $max-width;
-    // border: 1px $secondary-color-20 solid;
-    height: 1px;
-    background: $secondary-color-20;
-    border: none;
-    margin-top: 37px;
-    margin-bottom: 50px;
-}
+// .division-line {
+//     width: $max-width;
+//     // border: 1px $secondary-color-20 solid;
+//     height: 1px;
+//     background: $secondary-color-20;
+//     border: none;
+//     margin-top: 37px;
+//     margin-bottom: 50px;
+// }
 
 //description
 
@@ -264,11 +268,11 @@ input[type="radio"]:checked {
         margin-left: 15px;
         margin-right: 15px;
     }
-    .division-line {
-        width: calc(100% - 20px);
-        margin-left: 10px;
-        margin-right: 10px;
-    }
+    // .division-line {
+    //     width: calc(100% - 20px);
+    //     margin-left: 10px;
+    //     margin-right: 10px;
+    // }
     .button-list-wrapper {
         margin-top: 0;
     }
