@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Noto+Sans+TC:wght@200;400;500;700&family=Redacted+Script&display=swap");
 /* @font-face {
     
@@ -38,6 +37,18 @@ body button {
   line-height: 16px;
   cursor: pointer;
   border: none;
+}
+
+.page-container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrap {
+  background: #fff;
+  flex: 1;
+  padding-bottom: 40px;
 }
 
 .nav-wrapper {
@@ -197,20 +208,6 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-/* 設定一個 flexbox 容器來包裹內容和 footer */
-.page-container {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 允許內容區域彈性成長以填充空間 */
-.content-wrap {
-  background: #fff;
-  flex: 1;
-  padding-bottom: 40px;
 }
 
 footer {
