@@ -1,3 +1,7 @@
+document.addEventListener("goBackHome", function () {
+    window.location.href = "/";
+});
+
 function dateNormalize(dateElement) {
     const today = new Date();
     const year = today.getFullYear();
@@ -17,8 +21,45 @@ function dateNormalize(dateElement) {
     dateElement.setAttribute("min", minDate);
 }
 
+function loadingState() {
+    const loadingGray = "#aabbcc";
+
+    console.log("trigged");
+
+    document.querySelector(
+        ".booking-image"
+    ).style.background = `rgba(${loadingGray}, 0.5)`;
+    document.querySelector(
+        ".booking-title"
+    ).style.background = `rgba(${loadingGray}, 0.5)`;
+    document.querySelector(
+        ".booking-subtitle"
+    ).style.background = `rgba(${loadingGray}, 0.5)`;
+
+    // document.querySelector(
+    //     ".booking-image"
+    // ).style.animation = `loading-animation 1.5s infinite alternate`;
+    // document.querySelector(
+    //     ".booking-title"
+    // ).style.animation = `loading-animation 1.5s infinite alternate`;
+    // document.querySelector(
+    //     ".booking-subtitle"
+    // ).style.animation = `loading-animation 1.5s infinite alternate`;
+}
+
+function finishLoading() {
+    document.querySelector(".booking-image").style.background = `none`;
+    document.querySelector(".booking-title").style.background = `none`;
+    document.querySelector(".booking-subtitle").style.background = `none`;
+    // document.querySelector(".booking-image").style.animation = `none`;
+    // document.querySelector(".booking-title").style.animation = `none`;
+    // document.querySelector(".booking-subtitle").style.animation = `none`;
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
     const token = localStorage.getItem("token");
+
+    loadingState();
 
     // await checkLoginStatus();
 
@@ -75,6 +116,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const data = await response.json();
 
             if (data.data) {
+                finishLoading();
                 updateBookingPage(data.data);
             } else {
                 document.querySelector(".booking-cube-list").textContent =

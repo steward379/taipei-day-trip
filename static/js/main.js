@@ -12,7 +12,25 @@ const state = {
 
 let observer;
 
+function loadingLiState() {
+    const loadingGray = "#aabbcc";
+
+    document.querySelector(
+        "main"
+    ).style.background = `rgba(${loadingGray}, 0.5)`;
+    document.querySelector(
+        "main"
+    ).style.animation = `loading-animation 1.5s infinite alternate`;
+}
+
+function finishLiLoading() {
+    document.querySelector("main").style.background = `none`;
+    document.querySelector("main").style.animation = `none`;
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
+    loadingLiState();
+
     await initialize();
 });
 // window.addEventListener('load', async () => {
@@ -87,6 +105,7 @@ function handleIntersection(entries) {
 async function fetchData() {
     if (state.isLoading) return;
     state.isLoading = true;
+    loadingLiState();
 
     const { currentPage, currentKeyword, mrtOnly, isLoading, nextPage } = state;
 
@@ -140,6 +159,7 @@ async function fetchData() {
 
         if (dataAttractions && dataAttractions.length > 0) {
             createElements(dataAttractions);
+            finishLiLoading();
         } else {
             const mainElement = document.querySelector("main");
             const existingNoDataDiv = mainElement.querySelector(".no-data");

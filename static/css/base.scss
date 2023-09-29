@@ -28,6 +28,16 @@ $search-bar-mobile-width: 285px;
       font-family: 'Noto Sans TC';
       src: url('/path/to/NotoSansTC-Regular.otf') format('opentype');
   } */
+
+@keyframes loading-animation {
+    from {
+        opacity: 0.5;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 @mixin h1-slogan {
     font-weight: 700;
     font-size: 28px;

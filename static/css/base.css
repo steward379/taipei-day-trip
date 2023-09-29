@@ -4,6 +4,15 @@
       font-family: 'Noto Sans TC';
       src: url('/path/to/NotoSansTC-Regular.otf') format('opentype');
   } */
+@keyframes loading-animation {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .division-line {
   width: 1200px;
   height: 1px;

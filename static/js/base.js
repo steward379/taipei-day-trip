@@ -222,6 +222,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     openLoginBtn.textContent = "登出系統";
                 } else {
+                    const event = new Event("goBackHome");
+                    document.dispatchEvent(event);
+
                     openLoginBtn.textContent = "登入/註冊";
                 }
             })
