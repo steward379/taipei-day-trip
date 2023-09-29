@@ -207,6 +207,19 @@ document.addEventListener("DOMContentLoaded", function () {
             .then((response) => response.json())
             .then((data) => {
                 if (data && data.data) {
+                    userName = data.data.name;
+                    userId = data.data.id;
+                    userEmail = data.data.email;
+
+                    const event = new CustomEvent("getUserData", {
+                        detail: {
+                            userName,
+                            userId,
+                            userEmail,
+                        },
+                    });
+                    document.dispatchEvent(event);
+
                     openLoginBtn.textContent = "登出系統";
                 } else {
                     openLoginBtn.textContent = "登入/註冊";

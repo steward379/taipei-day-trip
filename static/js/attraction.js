@@ -117,6 +117,28 @@ async function initialize(id) {
             const imageCount = dataAttractions["images"].length;
 
             arrowMotion(imageCount);
+
+            // 讀取先前暫存的資料，並填入表單，這樣登入後就不用重來
+            if (localStorage.getItem("formData")) {
+                const savedFormData = JSON.parse(
+                    localStorage.getItem("formData")
+                );
+
+                // 檢查儲存的日期是否早於今天
+                const today = new Date();
+                const savedDate = new Date(savedFormData.date);
+                if (savedDate >= today) {
+                    document.getElementById("photo-date").value =
+                        savedFormData.date;
+                }
+
+                document.querySelector(
+                    `input[name="photo-radio"][value="${savedFormData.time}"]`
+                ).checked = true;
+
+                // 刪除儲存的表單資料
+                localStorage.removeItem("formData");
+            }
         }
 
         // DOM
@@ -124,6 +146,7 @@ async function initialize(id) {
         console.log(error);
     }
 }
+
 function dateNormalize(dateElement) {
     const today = new Date();
     const year = today.getFullYear();
@@ -175,6 +198,13 @@ async function SendBookingData(id, dateElement, fee, morning, afternoon) {
     if (responseData.ok) {
         window.open(window.location.origin + "/booking", "_self");
     } else {
+        // 暫存資料，以免登入後消失
+        const formData = {
+            date: dateElement.value,
+            time: morning.checked ? "上半天" : "下半天",
+        };
+        localStorage.setItem("formData", JSON.stringify(formData));
+
         const modal = document.getElementById("modal");
         modal.style.display = "flex";
     }

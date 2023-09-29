@@ -39,3 +39,17 @@ class AttractionImage(db.Model):
 #     email VARCHAR(50) UNIQUE NOT NULL,
 #     password VARCHAR(255) NOT NULL
 # );
+
+# CREATE TABLE bookings (     
+#     id INT AUTO_INCREMENT PRIMARY KEY,     
+#     user_id INT,     
+#     attraction_id INT,    
+#     attraction_name VARCHAR(255),     
+#     attraction_address VARCHAR(255),     
+#     attraction_image VARCHAR(255),     
+#     date DATE NOT NULL,     
+#     time ENUM('morning', 'afternoon') NOT NULL,     
+#     price DECIMAL(10, 2) NOT NULL,     
+#     FOREIGN KEY (user_id) REFERENCES users(id),     
+#     FOREIGN KEY (attraction_id) REFERENCES attractions(id) 
+# );

@@ -210,7 +210,7 @@ def get_user():
             }
         }), 200
     except Exception as e:
-        print(f"An error occurred: {e}")  # 考慮使用更進階的日誌記錄方式
+        # print(f"An error occurred: {e}")  # 考慮使用更進階的日誌記錄方式
         return jsonify({"data": None}), 200
 
 @app.route("/api/attractions", methods=["GET"])
@@ -244,7 +244,7 @@ def get_attractions():
         cursor.execute(query_count, params_count)
 
         total_count = cursor.fetchone()["COUNT(*)"]
-        print(total_count)
+        # print(total_count)
 
         # query = "SELECT id, name, CAT as Category, description, address, direction ,mrt as MRT, ST_X(location) as lng, ST_Y(location) as lat FROM attractions "
         query = "SELECT id, name, CAT, description, address, direction, MRT, longitude, latitude FROM attractions "

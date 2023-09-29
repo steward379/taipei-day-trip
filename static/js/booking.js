@@ -20,33 +20,47 @@ function dateNormalize(dateElement) {
 document.addEventListener("DOMContentLoaded", async function () {
     const token = localStorage.getItem("token");
 
-    await checkLoginStatus();
+    // await checkLoginStatus();
 
-    async function checkLoginStatus() {
-        try {
-            const response = await fetch("/api/user/auth", {
-                method: "GET",
-                headers: {
-                    Authorization: token,
-                },
-            });
-            // .then((response) => response.json())
-            const data = await response.json();
+    // async function checkLoginStatus() {
+    //     try {
+    //         const response = await fetch("/api/user/auth", {
+    //             method: "GET",
+    //             headers: {
+    //                 Authorization: token,
+    //             },
+    //         });
+    //         // .then((response) => response.json())
+    //         const data = await response.json();
 
-            // .then((data) => {
-            if (data.data) {
-                document.querySelector(".booking-user").textContent =
-                    data.data.name;
-                await fetchBooking();
-            } else {
-                window.location.href = "/";
-            }
-            // })
-            // .catch((error) => console.error("Error:", error));
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    //         // .then((data) => {
+    //         if (data.data) {
+    //             document.querySelector(".booking-user").textContent =
+    //                 userData.userName;
+    //             await fetchBooking();
+    //         } else {
+    //             window.location.href = "/";
+    //         }
+    //         // })
+    //         // .catch((error) => console.error("Error:", error));
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
+
+    let userData = {};
+
+    document.addEventListener("getUserData", async function (event) {
+        // format ~ userData = { userName, userId, userEmail };
+
+        userData = event.detail;
+
+        await fetchBooking();
+
+        document.querySelector(".booking-user").textContent = userData.userName;
+        document.querySelector("#booking-name").value = userData.userName;
+        document.querySelector("#booking-email").value = userData.userEmail;
+    });
 
     async function fetchBooking() {
         try {
