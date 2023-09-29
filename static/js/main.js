@@ -17,14 +17,14 @@ function loadingLiState() {
 
     document.querySelector(
         "main"
-    ).style.background = `rgba(${loadingGray}, 0.5)`;
+    ).style.backgroundColor = `rgba(${loadingGray}, 0.5)`;
     document.querySelector(
         "main"
     ).style.animation = `loading-animation 1.5s infinite alternate`;
 }
 
 function finishLiLoading() {
-    document.querySelector("main").style.background = `none`;
+    document.querySelector("main").style.backgroundColor = `none`;
     document.querySelector("main").style.animation = `none`;
 }
 
@@ -159,7 +159,6 @@ async function fetchData() {
 
         if (dataAttractions && dataAttractions.length > 0) {
             createElements(dataAttractions);
-            finishLiLoading();
         } else {
             const mainElement = document.querySelector("main");
             const existingNoDataDiv = mainElement.querySelector(".no-data");
@@ -184,9 +183,11 @@ async function fetchData() {
         let nowNextPage = state.nextPage;
         console.log("real data.nextPage now", nowNextPage);
         // })
+        finishLiLoading();
         state.isLoading = false;
     } catch (error) {
         console.log("Error Fetching data:", error);
+        finishLiLoading();
         state.isLoading = false;
     }
 }

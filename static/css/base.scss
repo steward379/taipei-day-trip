@@ -30,11 +30,17 @@ $search-bar-mobile-width: 285px;
   } */
 
 @keyframes loading-animation {
+    // from {
+    //     opacity: 0.5;
+    // }
+    // to {
+    //     opacity: 1;
+    // }
     from {
-        opacity: 0.5;
+        background-color: rgba(170, 187, 204, 0);
     }
     to {
-        opacity: 1;
+        background-color: rgba(170, 187, 204, 0.5);
     }
 }
 

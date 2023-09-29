@@ -117,10 +117,18 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             if (data.data) {
                 finishLoading();
+
+                document.querySelector(".main-division-line").style.display =
+                    "flex";
+
                 updateBookingPage(data.data);
             } else {
                 document.querySelector(".booking-cube-list").textContent =
-                    "沒有預定行程";
+                    "目前沒有任何待預訂的行程";
+                document.querySelector(".booking-cube-list").style.color =
+                    "#666";
+                document.querySelector(".main-division-line").style.display =
+                    "none";
                 document.querySelector(".booking-form").textContent = "";
             }
         } catch (error) {
