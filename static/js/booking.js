@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             } else {
                 document.querySelector(".booking-cube-list").textContent =
                     "沒有預定行程";
+                document.querySelector(".booking-form").textContent = "";
             }
         } catch (error) {
             console.error("Error:", error);
