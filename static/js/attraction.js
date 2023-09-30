@@ -5,6 +5,8 @@ const port = `3000`;
 function getAttractionIdFromURL() {
     const pathQuery = window.location.pathname.split("/");
     const lastQuery = pathQuery[pathQuery.length - 1];
+    // const url = window.location.href;
+    // const attractionId = url.split("/").pop();
 
     if (/^[0-9]+$/.test(lastQuery)) {
         return lastQuery;
@@ -58,6 +60,9 @@ async function initialize(id) {
             const feeElement = document.getElementById("photo-fee");
             const morningRadio = document.getElementById("morning");
             const afternoonRadio = document.getElementById("afternoon");
+            const dateElement = document.getElementById("photo-date");
+
+            dateNormalize(dateElement);
 
             morningRadio.addEventListener("change", function () {
                 feeElement.textContent = "新台幣 2000 元";
@@ -66,6 +71,23 @@ async function initialize(id) {
             afternoonRadio.addEventListener("change", function () {
                 feeElement.textContent = "新台幣 2500 元";
             });
+
+            const photoSubmit =
+                document.getElementsByClassName("photo-submit")[0];
+
+            photoSubmit.onclick = function (event) {
+                event.preventDefault();
+
+                checkUserLoggedIn();
+                SendBookingData(
+                    id,
+                    dateElement,
+                    feeElement,
+                    morningRadio,
+                    afternoonRadio
+                );
+                // window.open(window.location.origin + "/booking", "_self");
+            };
 
             for (let i = 0; i < dataAttractions["images"].length; i++) {
                 const img = document.createElement("img");
@@ -95,11 +117,96 @@ async function initialize(id) {
             const imageCount = dataAttractions["images"].length;
 
             arrowMotion(imageCount);
+
+            // 讀取先前暫存的資料，並填入表單，這樣登入後就不用重來
+            if (localStorage.getItem("formData")) {
+                const savedFormData = JSON.parse(
+                    localStorage.getItem("formData")
+                );
+
+                // 檢查儲存的日期是否早於今天
+                const today = new Date();
+                const savedDate = new Date(savedFormData.date);
+                if (savedDate >= today) {
+                    document.getElementById("photo-date").value =
+                        savedFormData.date;
+                }
+
+                document.querySelector(
+                    `input[name="photo-radio"][value="${savedFormData.time}"]`
+                ).checked = true;
+
+                // 刪除儲存的表單資料
+                localStorage.removeItem("formData");
+            }
         }
 
         // DOM
-    } catch {
-        console.log("error");
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function dateNormalize(dateElement) {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+
+    // 日期和月份需要為雙位數
+    if (month < 10) {
+        month = `0${month}`;
+    }
+    if (day < 10) {
+        day = `0${day}`;
+    }
+
+    const minDate = `${year}-${month}-${day}`;
+    dateElement.setAttribute("min", minDate);
+}
+
+function checkUserLoggedIn() {
+    const token = localStorage.getItem("token"); // 假設使用者的 JWT Token 存在本地存儲的 "userToken" 鍵下
+    return token !== null;
+}
+
+async function SendBookingData(id, dateElement, fee, morning, afternoon) {
+    const attractionId = id;
+
+    if (dateElement.value == "") {
+        alert("請選擇日期");
+        return;
+    }
+    const date = dateElement.value;
+
+    const time = morning.checked ? "morning" : "afternoon";
+    const price = morning.checked ? 2000 : 2500;
+
+    console.log(attractionId, date, time, price);
+
+    const response = await fetch("/api/booking", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ attractionId, date, time, price }),
+    });
+
+    const responseData = await response.json();
+
+    if (responseData.ok) {
+        window.open(window.location.origin + "/booking", "_self");
+    } else {
+        // 暫存資料，以免登入後消失
+        const formData = {
+            date: dateElement.value,
+            time: morning.checked ? "上半天" : "下半天",
+        };
+        localStorage.setItem("formData", JSON.stringify(formData));
+
+        const modal = document.getElementById("modal");
+        modal.style.display = "flex";
     }
 }
 

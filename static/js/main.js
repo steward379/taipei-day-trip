@@ -12,7 +12,25 @@ const state = {
 
 let observer;
 
+function loadingLiState() {
+    const loadingGray = "#aabbcc";
+
+    document.querySelector(
+        "main"
+    ).style.backgroundColor = `rgba(${loadingGray}, 0.5)`;
+    document.querySelector(
+        "main"
+    ).style.animation = `loading-animation 1.5s infinite alternate`;
+}
+
+function finishLiLoading() {
+    document.querySelector("main").style.backgroundColor = `none`;
+    document.querySelector("main").style.animation = `none`;
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
+    loadingLiState();
+
     await initialize();
 });
 // window.addEventListener('load', async () => {
@@ -87,6 +105,7 @@ function handleIntersection(entries) {
 async function fetchData() {
     if (state.isLoading) return;
     state.isLoading = true;
+    loadingLiState();
 
     const { currentPage, currentKeyword, mrtOnly, isLoading, nextPage } = state;
 
@@ -113,7 +132,7 @@ async function fetchData() {
 
     console.log(formatAPIurl);
 
-    // renderdata(foramatAPIurl)
+    // renderData(formatAPIurl)
 
     try {
         const response = await fetch(formatAPIurl);
@@ -164,9 +183,11 @@ async function fetchData() {
         let nowNextPage = state.nextPage;
         console.log("real data.nextPage now", nowNextPage);
         // })
+        finishLiLoading();
         state.isLoading = false;
     } catch (error) {
         console.log("Error Fetching data:", error);
+        finishLiLoading();
         state.isLoading = false;
     }
 }

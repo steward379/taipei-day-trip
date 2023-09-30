@@ -4,15 +4,6 @@
       font-family: 'Noto Sans TC';
       src: url('/path/to/NotoSansTC-Regular.otf') format('opentype');
   } */
-@keyframes loading-animation {
-  from {
-    background-color: rgba(170, 187, 204, 0);
-  }
-  to {
-    background-color: rgba(170, 187, 204, 0.5);
-  }
-}
-
 .division-line {
   width: 1200px;
   height: 1px;
@@ -250,5 +241,169 @@ footer {
     width: calc(100% - 20px);
     margin-left: 10px;
     margin-right: 10px;
+  }
+}
+
+main {
+  align-items: start;
+}
+
+.booking-area,
+.booking-submit {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+.division-line {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.booking-list-h3 {
+  font-size: 19px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #666666;
+  margin-top: 97px;
+  margin-bottom: 35px;
+}
+
+.booking-cube-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.booking-cube-list .booking-cube {
+  display: flex;
+  position: relative;
+  justify-content: start;
+  gap: 22px;
+}
+
+.delete-booking {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: auto;
+}
+
+.booking-image {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.booking-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #666666;
+}
+
+.booking-details .booking-title {
+  font-weight: 700;
+  color: #448899;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.booking-details .booking-subtitle {
+  margin-bottom: 10px;
+}
+
+.booking-details .booking-subtitle-bold {
+  font-weight: 700;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  color: #666666;
+}
+
+.booking-form input {
+  max-width: 180px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+}
+
+.booking-form .booking-form-subtitle {
+  font-size: 19px;
+  line-height: 16px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.booking-form .booking-input-div {
+  margin-bottom: 15px;
+}
+
+.booking-form .last-input-div {
+  margin-bottom: 0;
+}
+
+.booking-form .booking-warning {
+  margin-top: 5px;
+  font-weight: 700;
+}
+
+.booking-form-area {
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-submit {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 25px;
+}
+
+.booking-submit .booking-total-title {
+  font-weight: 700;
+}
+
+.booking-submit .confirm-booking {
+  font-size: 19px;
+  line-height: 16px;
+  padding: 10px 20px;
+  background: #448899;
+  color: white;
+  border-radius: 5px;
+  border: 5px;
+}
+
+@media (max-width: 1200px) {
+  .booking-area,
+  .booking-submit {
+    width: 100%;
+  }
+  main {
+    margin: 0 10px;
+  }
+  main .booking-image {
+    padding: 0;
+  }
+}
+
+@media (max-width: 630px) {
+  body {
+    line-height: normal;
+  }
+  .booking-cube {
+    flex-direction: column;
+  }
+  .booking-details {
+    margin-bottom: 20px;
+  }
+  .delete-booking {
+    top: auto;
+    bottom: 0;
+  }
+  .main-division-line {
+    margin-top: 30px;
   }
 }
