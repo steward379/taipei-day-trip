@@ -1,10 +1,23 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Noto+Sans+TC:wght@200;400;500;700&family=Redacted+Script&display=swap");
+.gradient-placeholder {
+  background: radial-gradient(circle, rgba(170, 221, 238, 0.7), rgba(102, 170, 187, 0.8));
+}
+
 /* @font-face {
     
       font-family: 'Noto Sans TC';
       src: url('/path/to/NotoSansTC-Regular.otf') format('opentype');
   } */
+@keyframes loading-animation {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .division-line {
   width: 1200px;
   height: 1px;
@@ -25,7 +38,6 @@ body {
   font-size: 16px;
   line-height: 13.3px;
   font-family: "Noto Sans TC", sans-serif;
-  background-color: #757575;
 }
 
 body a {
@@ -38,6 +50,24 @@ body button {
   line-height: 16px;
   cursor: pointer;
   border: none;
+}
+
+.page-container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrap {
+  background: #fff;
+  flex: 1;
+  padding-bottom: 40px;
+}
+
+img:hover {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: ease-in-out 0.3s;
 }
 
 .nav-wrapper {
@@ -199,20 +229,6 @@ main {
   align-items: center;
 }
 
-/* 設定一個 flexbox 容器來包裹內容和 footer */
-.page-container {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 允許內容區域彈性成長以填充空間 */
-.content-wrap {
-  background: #fff;
-  flex: 1;
-  padding-bottom: 40px;
-}
-
 footer {
   display: flex;
   justify-content: center;
@@ -222,6 +238,10 @@ footer {
   width: 100%;
   color: #f8f8f8;
   font-weight: 700;
+}
+
+footer:hover {
+  cursor: none;
 }
 
 @media (max-width: 1200px) {
@@ -250,6 +270,12 @@ footer {
 main {
   margin-top: 54px;
   margin-bottom: 134px;
+}
+
+img:hover {
+  cursor: default;
+  opacity: 1;
+  transition: none;
 }
 
 .photo-section {
@@ -419,6 +445,19 @@ main {
 .photo-booking .photo-fee {
   font-weight: 500;
   margin-left: 5px;
+}
+
+.hideWarning {
+  display: none;
+}
+
+.showWarning {
+  display: flex;
+  color: #f94545;
+  font-weight: 500;
+  margin-left: 100px;
+  margin-bottom: 20px;
+  margin-top: -15px;
 }
 
 .photo-time {

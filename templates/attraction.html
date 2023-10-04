@@ -5,7 +5,7 @@
   <meta charset="UTF-8"> -->
 {% extends "base.html" %}
 
-{% block title %}phrase 2 - Week 2-Attraction{% endblock %}
+{% block title %} Taipei Day Trip - Attraction {% endblock %}
 
 {% block head_extra %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/attraction.min.css') }}">
@@ -43,6 +43,7 @@
           <div class="data-wrapper">
             <label for="photo-date">選擇日期：</label>
             <input type="date" id="photo-date" class="photo-date"> </input>
+            <div class="date-warning hideWarning"></div>
           </div>
           <div class="radio-wrapper">
             <label class="photo-time">選擇時間：</label>

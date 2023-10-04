@@ -13,24 +13,23 @@ const state = {
 let observer;
 
 function loadingLiState() {
-    const loadingGray = "#aabbcc";
-
-    document.querySelector(
-        "main"
-    ).style.backgroundColor = `rgba(${loadingGray}, 0.5)`;
-    document.querySelector(
-        "main"
-    ).style.animation = `loading-animation 1.5s infinite alternate`;
+    if (document.querySelector(".main-image")) {
+        document.querySelector(
+            ".main-image"
+        ).style.animation = `loading-animation 0.5s ease-in-out infinite`;
+    }
 }
 
 function finishLiLoading() {
-    document.querySelector("main").style.backgroundColor = `none`;
-    document.querySelector("main").style.animation = `none`;
+    if (document.querySelector(".main-image")) {
+        const images = document.querySelectorAll(".main-image");
+        images.forEach((image) => {
+            image.style.animation = `none`;
+        });
+    }
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    loadingLiState();
-
     await initialize();
 });
 // window.addEventListener('load', async () => {
@@ -105,7 +104,6 @@ function handleIntersection(entries) {
 async function fetchData() {
     if (state.isLoading) return;
     state.isLoading = true;
-    loadingLiState();
 
     const { currentPage, currentKeyword, mrtOnly, isLoading, nextPage } = state;
 
@@ -159,6 +157,7 @@ async function fetchData() {
 
         if (dataAttractions && dataAttractions.length > 0) {
             createElements(dataAttractions);
+            loadingLiState();
         } else {
             const mainElement = document.querySelector("main");
             const existingNoDataDiv = mainElement.querySelector(".no-data");
@@ -176,6 +175,7 @@ async function fetchData() {
             if (ulProfile && ulProfile.lastChild) {
                 observer.observe(ulProfile.lastChild);
             }
+            finishLiLoading();
         }, 300); // 延遲 300 毫秒
 
         state.nextPage = dataAttractionsPrimitive["nextPage"];
@@ -183,7 +183,7 @@ async function fetchData() {
         let nowNextPage = state.nextPage;
         console.log("real data.nextPage now", nowNextPage);
         // })
-        finishLiLoading();
+
         state.isLoading = false;
     } catch (error) {
         console.log("Error Fetching data:", error);
@@ -316,6 +316,9 @@ function createElements(attractions) {
 
         ulProfile.appendChild(liProfile);
     });
+
+    loadingLiState();
+
     if (!mainElement.contains(ulProfile)) {
         mainElement.appendChild(ulProfile);
         observer.observe(ulProfile.lastChild);

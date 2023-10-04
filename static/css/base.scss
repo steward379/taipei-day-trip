@@ -7,6 +7,8 @@ $secondary-color-20: #e8e8e8;
 $secondary-color-10: #f8f8f8;
 $gradient1: linear-gradient(45deg, #aaddee, #66aabb);
 $gradient2: linear-gradient(0deg, #337788, #66aabb);
+$gradient-radial: radial-gradient(circle, rgba(#66aabb, 0.6), rgba(#337788, 0.7));
+$gradient-radial2: radial-gradient(circle, rgba(#aaddee, 0.7), rgba(#66aabb, 0.8));
 $support-color-blue-gray: #aabbcc;
 $real-white: #fff;
 $font: "Noto Sans TC", sans-serif;
@@ -21,6 +23,10 @@ $search-bar-height: 46px;
 $search-bar-desktop-width: 460px;
 $search-bar-mobile-width: 285px;
 
+.gradient-placeholder {
+    background: radial-gradient(circle, rgba(#aaddee, 0.7), rgba(#66aabb, 0.8));
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Noto+Sans+TC:wght@200;400;500;700&family=Redacted+Script&display=swap");
 
 /* @font-face {
@@ -30,18 +36,18 @@ $search-bar-mobile-width: 285px;
   } */
 
 @keyframes loading-animation {
-    // from {
-    //     opacity: 0.5;
-    // }
-    // to {
-    //     opacity: 1;
-    // }
     from {
-        background-color: rgba(170, 187, 204, 0);
+        opacity: 0.5;
     }
     to {
-        background-color: rgba(170, 187, 204, 0.5);
+        opacity: 1;
     }
+    // from {
+    //     background-color: rgba(170, 187, 204, 0);
+    // }
+    // to {
+    //     background-color: rgba(170, 187, 204, 0.5);
+    // }
 }
 
 @mixin h1-slogan {
@@ -106,6 +112,7 @@ $search-bar-mobile-width: 285px;
     border-radius: $basic-border-radius;
     border: 5px;
 }
+
 // hr
 
 .division-line {
@@ -126,7 +133,7 @@ $search-bar-mobile-width: 285px;
 body {
     @include body-text;
     font-family: $font;
-    background-color: $secondary-color-50;
+    // background-color: $secondary-color-50;
     // font-size: $font-regular-size;
     a {
         text-decoration: none;
@@ -149,6 +156,14 @@ body {
     background: $real-white;
     flex: 1;
     padding-bottom: 40px;
+}
+
+img {
+    &:hover {
+        cursor: pointer;
+        opacity: 0.7;
+        transition: ease-in-out 0.3s;
+    }
 }
 
 // nav
@@ -314,6 +329,10 @@ footer {
 
     color: $secondary-color-10;
     font-weight: 700;
+
+    &:hover {
+        cursor: none;
+    }
 }
 @media (max-width: 1200px) {
     .nav-list .nav-item-2 {

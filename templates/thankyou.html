@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %} Taipei Day Trip - Thank You {% endblock %}
+
+{% block head_extra %}
+<link href="https://fonts.googleapis.com/css?family=Oswald:700" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/thankyou.min.css') }}">
+<script src="{{ url_for('static', filename='js/thankyou.js') }}"></script>
+{% endblock %}
+<!-- </head> -->
+
+<!-- <body> -->
+<!-- header -->
+{% block content %}
+<main>
+    <h1 data-heading="THANKS">
+        <span class="thank-you" contenteditable data-heading="THANKS">THANKS</span>
+    </h1>
+    <div id="orderNumber"></div>
+</main>
+{% endblock %}
