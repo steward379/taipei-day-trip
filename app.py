@@ -525,12 +525,12 @@ def generate_bank_id(bank_id):
 
 @app.route("/api/order/<order_number>", methods=["GET"])
 def get_order(order_number):
-    # user_data = get_user_id_from_jwt()
+    user_data = get_user_id_from_jwt()
 
-    # if user_data is None:
-    #     return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
+    if user_data is None:
+        return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
     
-    # user_id = user_data["id"]
+    user_id = user_data["id"]
 
     try:
         connection = connect_to_db()
