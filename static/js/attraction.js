@@ -2,6 +2,8 @@ const domainURL = `http://127.0.0.1:`;
 // const domainURL = `http://54.253.20.174:`;
 const port = `3000`;
 
+let isRadioChanged = false; // 用來追踪是否有改變選項
+
 function getAttractionIdFromURL() {
     const pathQuery = window.location.pathname.split("/");
     const lastQuery = pathQuery[pathQuery.length - 1];
@@ -71,6 +73,15 @@ async function initialize(id) {
             afternoonRadio.addEventListener("change", function () {
                 feeElement.textContent = "新台幣 2500 元";
             });
+
+            document
+                .querySelectorAll('input[name="photo-radio"]')
+                .forEach((input) => {
+                    input.addEventListener("click", function () {
+                        isRadioChanged = true; // 當有改變時，將 isChanged 設為 true
+                        console.log("changeRadio");
+                    });
+                });
 
             const photoSubmit =
                 document.getElementsByClassName("photo-submit")[0];
@@ -171,14 +182,30 @@ function checkUserLoggedIn() {
 }
 
 async function SendBookingData(id, dateElement, fee, morning, afternoon) {
-    const attractionId = id;
+    const dateWarning = document.querySelector(".date-warning");
+
+    if (dateWarning.classList.contains("showWarning")) {
+        dateWarning.classList.remove("showWarning");
+        dateWarning.classList.add("hideWarning");
+        dateWarning.textContent = "";
+    }
 
     if (dateElement.value == "") {
-        alert("請選擇日期");
+        dateWarning.classList.add("showWarning");
+        dateWarning.classList.remove("hideWarning");
+        dateWarning.textContent = "請選擇日期 👆";
         return;
     }
-    const date = dateElement.value;
 
+    if (!isRadioChanged) {
+        dateWarning.classList.add("showWarning");
+        dateWarning.classList.remove("hideWarning");
+        dateWarning.textContent = "確定要上半場嗎？ 👇";
+        return;
+    }
+
+    const attractionId = id;
+    const date = dateElement.value;
     const time = morning.checked ? "morning" : "afternoon";
     const price = morning.checked ? 2000 : 2500;
 

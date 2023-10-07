@@ -1,15 +1,16 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8"> -->
 {% extends "base.html" %}
 
-{% block title %}phrase 2 - Week 2-Booking{% endblock %}
+{% block title %} Taipei Day Trip - Booking {% endblock %}
 
 {% block head_extra %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/booking.min.css') }}">
+<script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
 <script src="{{ url_for('static', filename='js/booking.js') }}"></script>
+<script>
+  // TPDirect.setupSDK(APP_ID, 'APP_KEY', 'sandbox')
+  let appId = "{{ app_id }}";
+  let appKey = "{{ app_key }}";
+</script>
 {% endblock %}
 
 <!-- </head> -->
@@ -20,8 +21,8 @@
   <div class="booking-list-area booking-area">
     <h3 class="booking-list-h3">您好，<span class="booking-user">【不明用戶】</span>，待預訂的行程如下：</h3>
     <div class="booking-cube-list">
-      <div class="booking-cube">
-        <img class="booking-image" src="" alt="" width="266px" height="200px">
+      <!-- <div class="booking-cube">
+        <img class="booking-image" src="/" alt="" width="266px" height="200px">
         <div class="booking-details">
           <h3 class="booking-title">台北一日遊： <span class="booking-attraction">【尚未確認地點】</span></h3>
           <h5 class="booking-subtitle"> <span class="booking-subtitle-bold">日期：</span><span class="booking-date">【尚未確認日期】</span></h5>
@@ -31,8 +32,7 @@
         </div>
         <div class="delete-booking" id="delete-booking">
           <img src="{{ url_for('static', filename='images/rubbish_bin.png') }}" alt="delete" width="30px" height="30px">
-        </div>
-      </div>
+        </div> -->
     </div>
   </div>
   <hr class="division-line main-division-line">
@@ -58,15 +58,18 @@
       <h3 class="booking-form-subtitle"> 信用卡付款資訊</h3>
       <div class="booking-input-div">
         <label for="booking-credit-card">卡片號碼：</label>
-        <input type="password" id="booking-credit-card" name="booking-credit-card" placeholder="**** **** **** ****" required>
+        <!-- <input type="password" id="card-number" class="booking-credit-card" name="booking-credit-card" required> -->
+        <div class="tpfield" id="card-number"></div>
       </div>
       <div class="booking-input-div">
         <label for="booking-credit-card-exp">過期時間：</label>
-        <input type="month" id="booking-credit-card-exp" name="booking-credit-card-exp" placeholder="MM / YY" required>
+        <!-- <input type="month" id="card-expiration-date" class="booking-credit-card-exp" name="booking-credit-card-exp" required> -->
+        <div class="tpfield" id="card-expiration-date"></div>
       </div>
       <div class="booking-input-div last-input-div">
-        <label for="booking-credit-card-cvc">驗證密碼：</label>
-        <input type="text" id="booking-credit-card-cvc" name="booking-credit-card-cvc" placeholder="CVV" required>
+        <label for="booking-credit-card-ccv">驗證密碼：</label>
+        <!-- <input type="text" id="card-ccv" class="booking-credit-card-ccv" name="booking-credit-card-cvc" required> -->
+        <div class="tpfield" id="card-ccv"></div>
       </div>
     </div>
     <hr class="division-line">
@@ -76,6 +79,5 @@
     </div>
   </form>
 </main>
-
 {% endblock %}
 <!-- </body> -->

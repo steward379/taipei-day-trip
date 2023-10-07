@@ -4,11 +4,24 @@
       src: url('/path/to/NotoSansTC-Regular.otf') format('opentype');
   } */
 @import url("https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Noto+Sans+TC:wght@200;400;500;700&family=Redacted+Script&display=swap");
+.gradient-placeholder {
+  background: radial-gradient(circle, rgba(170, 221, 238, 0.7), rgba(102, 170, 187, 0.8));
+}
+
 /* @font-face {
     
       font-family: 'Noto Sans TC';
       src: url('/path/to/NotoSansTC-Regular.otf') format('opentype');
   } */
+@keyframes loading-animation {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .division-line {
   width: 1200px;
   height: 1px;
@@ -29,7 +42,6 @@ body {
   font-size: 16px;
   line-height: 13.3px;
   font-family: "Noto Sans TC", sans-serif;
-  background-color: #757575;
 }
 
 body a {
@@ -42,6 +54,24 @@ body button {
   line-height: 16px;
   cursor: pointer;
   border: none;
+}
+
+.page-container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrap {
+  background: #fff;
+  flex: 1;
+  padding-bottom: 40px;
+}
+
+img:hover {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: ease-in-out 0.3s;
 }
 
 .nav-wrapper {
@@ -203,20 +233,6 @@ main {
   align-items: center;
 }
 
-/* 設定一個 flexbox 容器來包裹內容和 footer */
-.page-container {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 允許內容區域彈性成長以填充空間 */
-.content-wrap {
-  background: #fff;
-  flex: 1;
-  padding-bottom: 40px;
-}
-
 footer {
   display: flex;
   justify-content: center;
@@ -226,6 +242,10 @@ footer {
   width: 100%;
   color: #f8f8f8;
   font-weight: 700;
+}
+
+footer:hover {
+  cursor: none;
 }
 
 @media (max-width: 1200px) {
@@ -393,6 +413,12 @@ nav #hamburger-menu-click:checked ~ .nav-list {
   background-color: #448899;
 }
 
+.search-bar #search-button:hover {
+  background-color: #eda007;
+  opacity: 0.8;
+  transition: loading-animation 0.2s infinite alternate;
+}
+
 .button-list-wrapper {
   position: relative;
   height: 50px;
@@ -496,6 +522,8 @@ nav #hamburger-menu-click:checked ~ .nav-list {
   height: 197px;
   width: 100%;
   object-fit: cover;
+  background: radial-gradient(circle, rgba(102, 170, 187, 0.6), rgba(51, 119, 136, 0.7));
+  animation: loading-animation 0.5s ease-in-out infinite;
 }
 
 .profile-img .fallback-text {

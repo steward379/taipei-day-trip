@@ -1,0 +1,15 @@
+@import "base";
+
+.tappay-field-focus {
+    border-color: #031919;
+    border: 2px;
+}
+
+.tpfield {
+    display: flex;
+    max-width: 180px;
+    height: 35.5px;
+    padding: 10px;
+    border-radius: $basic-border-radius;
+    border: 1px solid $secondary-color-20;
+}

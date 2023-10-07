@@ -1,3 +1,7 @@
+window.onload = function () {
+    document.body.style.backgroundColor = "#757575";
+};
+
 document.addEventListener("DOMContentLoaded", function () {
     const closeModal = document.getElementById("close-modal");
     const loginForm = document.getElementById("login-form");
@@ -68,8 +72,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const bookingTrip = document.querySelector("#booking-trip");
 
+    // 監聽自定義事件
+
+    const redirectToBookingEvent = new Event("redirectToBooking");
+
     bookingTrip.addEventListener("click", async function () {
         if (!localStorage.getItem("token")) {
+            document.dispatchEvent(redirectToBookingEvent);
             modal.style.display = "flex";
         } else {
             const response = await fetch("/api/user/auth", {
@@ -85,9 +94,17 @@ document.addEventListener("DOMContentLoaded", function () {
             if (responseData.data !== null) {
                 window.open(window.location.origin + "/booking", "_self");
             } else {
+                document.dispatchEvent(redirectToBookingEvent);
                 modal.style.display = "flex";
             }
         }
+    });
+
+    let shouldRedirectToBooking = false;
+
+    // 監聽自定義事件
+    document.addEventListener("redirectToBooking", function () {
+        shouldRedirectToBooking = true;
     });
 
     loginForm.addEventListener("submit", function (event) {
@@ -112,14 +129,19 @@ document.addEventListener("DOMContentLoaded", function () {
             .then((response) => response.json())
             .then((data) => {
                 if (data.token) {
+                    loginError.textContent = ""; // 清空錯誤訊息
                     // 將 token 存到 localStorage
                     localStorage.setItem("token", data.token);
 
                     // modal.style.display = "none";
                     // openLoginBtn.textContent = "登出";
 
-                    loginError.textContent = ""; // 清空錯誤訊息
-                    location.reload(); // 重新載入頁面
+                    if (shouldRedirectToBooking) {
+                        shouldRedirectToBooking = false; // 重置標誌
+                        window.location.href = "/booking"; // 重定向到 /booking
+                    } else {
+                        location.reload();
+                    }
                 } else {
                     // console.log(data.message);
                     loginError.textContent = data.message || "登入失敗";

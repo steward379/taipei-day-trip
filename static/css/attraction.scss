@@ -4,6 +4,13 @@ main {
     margin-top: 54px;
     margin-bottom: 134px;
 }
+img {
+    &:hover {
+        cursor: default;
+        opacity: 1;
+        transition: none;
+    }
+}
 
 .photo-section {
     display: flex;
@@ -172,6 +179,20 @@ main {
         margin-left: 5px;
     }
 }
+
+.hideWarning {
+    display: none;
+}
+
+.showWarning {
+    display: flex;
+    color: rgb(249, 69, 69);
+    font-weight: 500;
+    margin-left: 100px;
+    margin-bottom: 20px;
+    margin-top: -15px;
+}
+
 // form-format
 
 .photo-time {
