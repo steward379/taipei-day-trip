@@ -13,7 +13,9 @@ user_bp = Blueprint('user', __name__)
 def register():
     try:
         data = request.json
+
         existing_user = User.query.filter_by(email=data['email']).first()
+        
         if existing_user:
             return jsonify({"error": True, "message": "Email 已被使用"}), 400
 
@@ -34,6 +36,7 @@ def register():
 def login():
     try:
         data = request.json
+        
         user = User.query.filter_by(email=data['email']).first()
 
         if not user or not check_password_hash(user.password, data["password"]):

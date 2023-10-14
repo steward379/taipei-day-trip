@@ -15,15 +15,31 @@ document.addEventListener("DOMContentLoaded", function () {
     const openLoginBtn = document.getElementById("open-login");
 
     if (localStorage.getItem("token")) {
-        openLoginBtn.textContent = "登出系統";
+        openLoginBtn.textContent = "會員中心";
     } else {
         openLoginBtn.textContent = "登入/註冊";
     }
 
-    openLoginBtn.addEventListener("click", function () {
+    openLoginBtn.addEventListener("click", async function () {
         if (localStorage.getItem("token")) {
-            localStorage.removeItem("token");
-            openLoginBtn.textContent = "登入/註冊";
+
+            const response = await fetch("/api/user/auth", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${localStorage.getItem("token")}`,
+                },
+            });
+
+            const responseData = await response.json();
+
+            const memberId = responseData.data.id;
+
+            window.open(window.location.origin + "/member/"  + memberId, "_self");
+
+            // 舊版本
+            // localStorage.removeItem("token");
+            // openLoginBtn.textContent = "登入/註冊";
         } else {
             modal.style.display = "flex";
         }
@@ -79,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
     bookingTrip.addEventListener("click", async function () {
         if (!localStorage.getItem("token")) {
             document.dispatchEvent(redirectToBookingEvent);
+
             modal.style.display = "flex";
         } else {
             const response = await fetch("/api/user/auth", {
@@ -233,19 +250,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     userId = data.data.id;
                     userEmail = data.data.email;
 
-                    const event = new CustomEvent("getUserData", {
+                    const userEvent = new CustomEvent("getUserData", {
                         detail: {
                             userName,
                             userId,
                             userEmail,
                         },
                     });
-                    document.dispatchEvent(event);
+                    document.dispatchEvent(userEvent);
 
-                    openLoginBtn.textContent = "登出系統";
+                    openLoginBtn.textContent = "會員中心";
                 } else {
-                    const event = new Event("goBackHome");
-                    document.dispatchEvent(event);
+                    const homeEvent = new Event("goBackHome");
+                    document.dispatchEvent(homeEvent);
 
                     openLoginBtn.textContent = "登入/註冊";
                 }

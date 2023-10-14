@@ -1,80 +1,5 @@
 // @import "base";
 
-$red: #fe4560;
-$blue: #98b5cc;
-
-
-$face: #91d4ff;
-$flourish: #fff;
-$shadowdots: #040351;
-$shadow: #4d8bea;
-$shadow2: #cbc7e3;
-
-main {
-	// height:  90vh;	
-	// width: 100vw;
-	background: #e4e2f2;
-	width: 100vw;
-	height: 90vh;
-}
-#orderNumber {
-	z-index: 999;
-}
-
-h1 {
-	font-family: "Rig Bold Face", sans-serif;
-	text-transform: uppercase;
-	font-size: 18vw;
-	text-align: center;
-	font-weight: normal;
-	margin: 0;
-	margin-top: 300px;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	position: absolute;
-	color: $face;
-
-	&:before,
-	&:after, 
-	span:before, 
-	span:after {
-		content: attr(data-heading);
-		position: absolute;
-		overflow: hidden;
-		left: 0;
-		top: 0;
-		z-index: 5;
-		font-weight: normal;
-		text-shadow: none;
-	}
-	
-	&:before {
-		font-family: "Rig Bold Inline", sans-serif;
- 		color: $flourish;
-	}
-	
-	&:after {
-		font-family: "Rig Bold Coarse", sans-serif;
-		color: $shadowdots;
-	}
-}
-
-span {
-	&::before {
-		font-family: "Rig Bold Shadow", sans-serif;
-		color: $shadow2;
-		z-index: -1;
-	}
-	
-	&::after {
-		font-family: "Rig Bold Extrude", sans-serif;
-		color: $shadow;
-		z-index: -1;	
-	}
-	
-}
-
 @font-face {
 	font-family:"Rig Bold Coarse"; 
 	src:url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/209981/Rig-BoldCoarse.otf");
@@ -98,4 +23,79 @@ span {
 @font-face {
 	font-family:"Rig Bold Inline"; 
 	src:url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/209981/Rig-BoldInline.otf");
+}
+
+$red: #fe4560;
+$blue: #69b2ee;
+
+$face: #fe4560;
+$flourish: #ffb908;
+$shadowdots: #0f0d5d;
+$shadow-blue: #48c8e1;
+$shadow-purple: #ffffff;
+
+main {
+	// height:  90vh;	
+	// width: 100vw;
+	background: #e4e2f2;
+	max-width: 100vw;
+	height: 90vh;
+}
+
+.content-wrap {
+	padding-bottom: 0;
+}
+
+.thank-you-h1 {
+	font-family: "Rig Bold Face", sans-serif;
+	text-transform: uppercase;
+	font-size: 18vw;
+	text-align: center;
+	font-weight: normal;
+	margin-top: 150px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	position: absolute;
+	color: $face;
+
+	&:before,
+	&:after, 
+	.thank-you-span:before, 
+	.thank-you-span:after {
+		content: attr(data-heading);
+		position: absolute;
+		// overflow: hidden;
+		left: 0;
+		top: 0;
+		z-index: 5;
+		font-weight: normal;
+		text-shadow: none;
+		// height: 500px;
+	}
+	
+	&:before {
+		font-family: "Rig Bold Inline", sans-serif;
+ 		color: $flourish;
+	}
+	
+	&:after {
+		font-family: "Rig Bold Coarse", sans-serif;
+		color: $shadowdots;
+	}
+}
+
+.thank-you-span {
+	&::before {
+		font-family: "Rig Bold Shadow", sans-serif;
+		color: $shadow-purple;
+		z-index: -1;
+	}
+	
+	&::after {
+		font-family: "Rig Bold Extrude", sans-serif;
+		color: $shadow-blue;
+		z-index: -1;	
+	}
+	
 }

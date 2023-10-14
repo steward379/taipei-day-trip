@@ -2,24 +2,24 @@ document.addEventListener("goBackHome", function () {
     window.location.href = "/";
 });
 
-function dateNormalize(dateElement) {
-    const today = new Date();
-    const year = today.getFullYear();
-    let month = today.getMonth() + 1;
-    // let day = today.getDate();
+// function dateNormalize(dateElement) {
+//     const today = new Date();
+//     const year = today.getFullYear();
+//     let month = today.getMonth() + 1;
+//     // let day = today.getDate();
 
-    // 日期和月份需要為雙位數
-    if (month < 10) {
-        month = `0${month}`;
-    }
-    // if (day < 10) {
-    //     day = `0${day}`;
-    // }
+//     // 日期和月份需要為雙位數
+//     if (month < 10) {
+//         month = `0${month}`;
+//     }
+//     // if (day < 10) {
+//     //     day = `0${day}`;
+//     // }
 
-    // const minDate = `${year}-${month}-${day}`;
-    const minDate = `${year}-${month}`;
-    dateElement.setAttribute("min", minDate);
-}
+//     // const minDate = `${year}-${month}-${day}`;
+//     const minDate = `${year}-${month}`;
+//     dateElement.setAttribute("min", minDate);
+// }
 
 document.addEventListener("DOMContentLoaded", async function () {
     const token = localStorage.getItem("token");

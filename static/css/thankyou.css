@@ -1,63 +1,3 @@
-main {
-  background: #e4e2f2;
-  width: 100vw;
-  height: 90vh;
-}
-
-#orderNumber {
-  z-index: 999;
-}
-
-h1 {
-  font-family: "Rig Bold Face", sans-serif;
-  text-transform: uppercase;
-  font-size: 18vw;
-  text-align: center;
-  font-weight: normal;
-  margin: 0;
-  margin-top: 300px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  color: #91d4ff;
-}
-
-h1:before, h1:after,
-h1 span:before,
-h1 span:after {
-  content: attr(data-heading);
-  position: absolute;
-  overflow: hidden;
-  left: 0;
-  top: 0;
-  z-index: 5;
-  font-weight: normal;
-  text-shadow: none;
-}
-
-h1:before {
-  font-family: "Rig Bold Inline", sans-serif;
-  color: #fff;
-}
-
-h1:after {
-  font-family: "Rig Bold Coarse", sans-serif;
-  color: #040351;
-}
-
-span::before {
-  font-family: "Rig Bold Shadow", sans-serif;
-  color: #cbc7e3;
-  z-index: -1;
-}
-
-span::after {
-  font-family: "Rig Bold Extrude", sans-serif;
-  color: #4d8bea;
-  z-index: -1;
-}
-
 @font-face {
   font-family: "Rig Bold Coarse";
   src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/209981/Rig-BoldCoarse.otf");
@@ -81,4 +21,62 @@ span::after {
 @font-face {
   font-family: "Rig Bold Inline";
   src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/209981/Rig-BoldInline.otf");
+}
+
+main {
+  background: #e4e2f2;
+  max-width: 100vw;
+  height: 90vh;
+}
+
+.content-wrap {
+  padding-bottom: 0;
+}
+
+.thank-you-h1 {
+  font-family: "Rig Bold Face", sans-serif;
+  text-transform: uppercase;
+  font-size: 18vw;
+  text-align: center;
+  font-weight: normal;
+  margin-top: 150px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  color: #fe4560;
+}
+
+.thank-you-h1:before, .thank-you-h1:after,
+.thank-you-h1 .thank-you-span:before,
+.thank-you-h1 .thank-you-span:after {
+  content: attr(data-heading);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  font-weight: normal;
+  text-shadow: none;
+}
+
+.thank-you-h1:before {
+  font-family: "Rig Bold Inline", sans-serif;
+  color: #ffb908;
+}
+
+.thank-you-h1:after {
+  font-family: "Rig Bold Coarse", sans-serif;
+  color: #0f0d5d;
+}
+
+.thank-you-span::before {
+  font-family: "Rig Bold Shadow", sans-serif;
+  color: #ffffff;
+  z-index: -1;
+}
+
+.thank-you-span::after {
+  font-family: "Rig Bold Extrude", sans-serif;
+  color: #48c8e1;
+  z-index: -1;
 }

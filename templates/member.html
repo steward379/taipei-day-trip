@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %} Taipei Day Trip - member {% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/member.min.css') }}">
+<script src="{{ url_for('static', filename='js/member.js') }}"></script>
+{% endblock %}
+<!-- </head> -->
+
+<!-- <body> -->
+<!-- header -->
+{% block content %}
+<main>
+    <div class="user-info" data-user-id="">
+        <div class="user-welcome">嗨，<span class="user-name"></span> ，歡迎登入</div>
+        <div class="user-details">你的信箱是 <span class="user-email"></span> 。</div>
+    </div>
+    <div class="logout"><button id="member-logout"> 登出 </button></div>
+</main>
+{% endblock %}

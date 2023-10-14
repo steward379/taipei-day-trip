@@ -124,6 +124,10 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
+@app.route("/member/<member_id>")
+def member(member_id):
+	return render_template("member.html")
+
 # register
 @app.route("/api/user", methods=["POST"])
 def register():
@@ -646,7 +650,8 @@ def orders():
     # 設置 TapPay 的 API 參數
     tappay_data = {
         # direct pay
-        "prime": "test_3a2fb2b7e892b914a03c95dd4dd5dc7970c908df67a49527c0a648b2bc9",
+        # "prime": "test_3a2fb2b7e892b914a03c95dd4dd5dc7970c908df67a49527c0a648b2bc9",
+        "prime" : prime ,
         "partner_key": partner_key,
         "merchant_id": "murmurline_ESUN",
         "amount": 100,
