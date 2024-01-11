@@ -1,6 +1,6 @@
 # Taipei Day Trip 🧳
 
-SPA RWD Web App.
+SPA RWD Web App using Python/Flask & MySQL.
 
 - port on 3000
 
