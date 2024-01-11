@@ -54,5 +54,13 @@ The due date  : You can just use any date after today.
 | MySQL | Database on Linux | some familiar     |
 | CloudFlare  | DNS | some familiar     |
 | HTTPS SSH | SSH | some familar |
+| Gunicorn | Flask Server on Linux | some familar |
+
+Using 4 processes on Gunicorn. 
+Using port 3000 (alike Flask 3000) instead of Unix sock to simplify the process.
+
+User => Domain => CloudFlare DNS => AWS EC2 ubuntu server => Nginx => Gunicorn (Port 3000) 
+
+
 
 
