@@ -1,5 +1,7 @@
 # Taipei Day Trip 🧳
 
+SPA RWD Web App.
+
 - port on 3000
 
 # Demo Account
@@ -36,4 +38,21 @@ The due date  : You can just use any date after today.
 | 4242 4276 2229 4242   | 123  | 10013 - Order number duplicate                    |
 | 4242 4288 2639 4242   | 123  | 10023 - Bank Error                                |
 | 4242 4210 0008 4242   | 123  | 10015 - Redeem Failed                             |
+
+## Technique
+
+
+| Name         | Des  | Familiarity                                         |
+|-----------------------|------|---------------------------------------------------|
+| Figma  | Frontend Design | Familiar                    |
+| Html/Css(SCSS)/JavaScript   | Frontend | Familiar                    |
+| Python3 / Flask  | Backend| some familiar                         |
+| MySQL | Database | some familiar                         |
+| Amazon Web Service (AWS) EC2 Instance   | server(ubuntu, Linux) | some familiar                    |
+| Elastic IP | AWS | some familiar   |
+| Nginx | Server on Linux | some familiar   |
+| MySQL | Database on Linux | some familiar     |
+| CloudFlare  | DNS | some familiar     |
+| HTTPS SSH | SSH | some familar |
+
 
