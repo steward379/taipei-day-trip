@@ -50,7 +50,7 @@ The due date  : You can just use any date after today.
 | MySQL | Database | some familiar                         |
 | Amazon Web Service (AWS) EC2 Instance   | server(ubuntu, Linux) | some familiar                    |
 | Elastic IP | AWS | some familiar   |
-| Nginx | Server on Linux | some familiar   |
+| Nginx | Proxy Server on Linux | some familiar   |
 | MySQL | Database on Linux | some familiar     |
 | CloudFlare  | DNS | some familiar     |
 | HTTPS SSH | SSH | some familar |
